@@ -13,6 +13,8 @@ import 'src/repository/settings_repository.dart' as settingRepo;
 import 'src/repository/user_repository.dart' as userRepo;
 import 'src/helpers/app_config.dart' as config;
 
+//flutter run -d chrome --web-port=8080 --web-hostname=192.168.1.6
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await GlobalConfiguration().loadFromAsset("configurations");
