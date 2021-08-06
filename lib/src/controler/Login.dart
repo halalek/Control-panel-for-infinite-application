@@ -40,7 +40,7 @@ class LoginController extends ControllerMVC {
 
     //var result = await FirebaseAuth.instance.signInWithEmailAndPassword(email: _emailcontroller.text, password: _passwordcontroller.text);
  //  var result=LodtSettings();
-   var result = await FirebaseAuth.instance.createUserWithEmailAndPassword(email: _emailController.text, password: _passwordController.text);
+   var result = await FirebaseAuth.instance.signInWithEmailAndPassword(email: _emailController.text, password: _passwordController.text);
     if(result != null){
 
       // var userinfo=FirebaseFirestore.instance.collection('users').doc().set({

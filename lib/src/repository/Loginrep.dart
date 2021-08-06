@@ -19,7 +19,7 @@ final navigatorKey = GlobalKey<NavigatorState>();
 
 void LodtSettings() async {
   LoginController _loginrController = new LoginController();
-  var result = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+  var result = await FirebaseAuth.instance.signInWithEmailAndPassword(
       email: _loginrController.emailController.text,
       password: _loginrController.passwordController.text);
   //  return result;

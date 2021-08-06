@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
 import 'package:structurepublic/src/controler/Login.dart';
+import 'package:structurepublic/src/pages/SectionPage.dart';
 
 import '../../generated/l10n.dart';
 import '../controler/user_controller.dart';
@@ -90,6 +91,13 @@ class _Loginmain extends StateMVC<Loginmain> {
                     if (_formkey.currentState.validate()) {
 
                       _loginrController.logfirebase();
+                      await print(" hey dalaley");
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => PageMain(),
+                        ),
+                      );
                     }
                   },
                 ),
