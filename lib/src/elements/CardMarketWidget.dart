@@ -30,7 +30,7 @@ class _CardMarketWidgetState extends State<CardMarketWidget> {
       children: <Widget>[
         Container(
           height: 300,
-          width: double.maxFinite,
+          width: MediaQuery.of(context).size.width/3,
           child: Card(
             semanticContainer: true,
             clipBehavior: Clip.antiAliasWithSaveLayer,
@@ -41,7 +41,7 @@ class _CardMarketWidgetState extends State<CardMarketWidget> {
                     height: 200,
                     width: MediaQuery.of(context).size.width,
                     child: Image(
-                        image: CachedNetworkImageProvider(marketData.image),
+                        image: NetworkImage(marketData.image),
                         errorBuilder: (context, url, error) => Image.asset(
                               'assets/img/loading.gif',
                               fit: BoxFit.cover,
@@ -54,7 +54,7 @@ class _CardMarketWidgetState extends State<CardMarketWidget> {
                       (marketData.hide == false)&&(marketData.active==true) ? Colors.white : Colors.grey,
                       leading: CircleAvatar(
                         backgroundColor: Colors.black12,
-                        backgroundImage: CachedNetworkImageProvider(
+                        backgroundImage: NetworkImage(
                           marketData.imageIcon,
                         ),
                       ),

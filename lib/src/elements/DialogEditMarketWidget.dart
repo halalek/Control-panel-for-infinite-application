@@ -94,7 +94,7 @@ class _EditMarketState extends State<EditMarket> {
                                         'assets/img/loading.gif',
                                         fit: BoxFit.cover,
                                       ),
-                                  image: CachedNetworkImageProvider(
+                                  image: NetworkImage(
                                       marketController.imageUrl),
                                   fit: BoxFit.cover),
                             ),
@@ -113,7 +113,7 @@ class _EditMarketState extends State<EditMarket> {
                                     minWidth: 0.0,
                                   ),
                                   backgroundColor: Colors.black12,
-                                  backgroundImage: CachedNetworkImageProvider(
+                                  backgroundImage: NetworkImage(
                                     marketController.imageUrlIcon,
                                   ),
                                 ),

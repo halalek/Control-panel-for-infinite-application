@@ -24,25 +24,25 @@ Future<List<SectionData>> getSections() async {
   List<SectionData> list = [];
 
 
-  await FirebaseFirestore.instance
-      .collection('section')
-      .get()
-      .then((QuerySnapshot querySnapshot) {
-    querySnapshot.docs.forEach((doc) {
-      list.add(SectionData.fromJson(doc.data()));
-      print(doc["id"]);
-    });
-  });
-
-
-  // await FirebaseFirestore.instance.collection('section').get().then((value) {
-  //   for (int i = 0; i < value.docs.length; i++) {
-  //     print("hala" + value.docs.length.toString());
-  //     list.add(SectionData.fromJson(value.docs[i].data()));
-  //   }
-  // }).catchError((e) {
-  //   print(e);
+  // await FirebaseFirestore.instance
+  //     .collection('section')
+  //     .get()
+  //     .then((QuerySnapshot querySnapshot) {
+  //   querySnapshot.docs.forEach((doc) {
+  //     list.add(SectionData.fromJson(doc.data()));
+  //     print(doc["id"]);
+  //   });
   // });
+
+
+  await FirebaseFirestore.instance.collection('section').get().then((value) {
+    for (int i = 0; i < value.docs.length; i++) {
+      print("hala" + value.docs.length.toString());
+      list.add(SectionData.fromJson(value.docs[i].data()));
+    }
+  }).catchError((e) {
+    print(e);
+  });
   print("hala" + list.length.toString());
   return list;
 }

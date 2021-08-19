@@ -39,22 +39,83 @@ class _PageMarket extends StateMVC<PageMarket> {
   }
 
   int point = 0;
-
+// زبطي الشكل يا دلال خليه توووب
+//   سطر مطعم صورة مطعم
+//   اسطر مطاعم
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
     return Scaffold(
-        appBar: AppBar(
-          title: Text(""),
-          backgroundColor: Theme.of(context).primaryColor,
+      body: Center(
+        child: Container(
+          color: Colors.grey[100],
+          child: ListView(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        SizedBox(
+                          height: 50,
+                        ),
+                        for(int i=0;i<_con2.listMarket.length;i=i+3)
+                        CardMarketWidget(_con2.listMarket[i], _con2),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        SizedBox(height: 30,),
+                        CircleAvatar(
+                          radius: 50,
+                          backgroundColor: Colors.black12,
+                          backgroundImage: NetworkImage(
+                            sectionData.image,
+                          ),
+                        ),
+                        SizedBox(height: 10,),
+                        Text(sectionData.nameAr,style: TextStyle(fontSize: 30,fontWeight: FontWeight.bold),),
+                        SizedBox(height: 10,),
+                        Divider(
+                          color: Colors.black,
+                        ),
+                        SizedBox(height: 10,),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        if(_con2.listMarket.length>0)
+                          CardMarketWidget(_con2.listMarket[0], _con2),
+                        for (int i = 2; i < _con2.listMarket.length; i = i + 3)
+                          CardMarketWidget(_con2.listMarket[i], _con2),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        SizedBox(
+                          height: 50,
+                        ),
+                        for (int i = 1; i < _con2.listMarket.length; i = i + 3)
+                          CardMarketWidget(_con2.listMarket[i], _con2),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
-        body: ListView.builder(
-          itemCount: _con2.listMarket.length,
-          itemBuilder: (context, i) {
-            return CardMarketWidget(_con2.listMarket[i], _con2);
-          },
-        ),
-        );
+      ),
+    );
   }
 
   void navigetor(String app) async {

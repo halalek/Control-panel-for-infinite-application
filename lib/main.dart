@@ -16,8 +16,9 @@ import 'src/repository/settings_repository.dart' as settingRepo;
 import 'src/repository/user_repository.dart' as userRepo;
 import 'src/helpers/app_config.dart' as config;
 
-//flutter run -d chrome --web-port=8080 --web-hostname=192.168.1.6
-
+//flutter run -d chrome --web-port=8080 --web-hostname=ipconfig ipv4
+//flutter run -d chrome --web-port=8080 --web-hostname=ipconfigipv4 --web-renderer html
+//192.168.1.4
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await GlobalConfiguration().loadFromAsset("configurations");
@@ -49,8 +50,8 @@ class _MyAppState extends State<MyApp> {
               title: "",
 
              //home: PageMarket(SectionData(id: "LBs5s8ooNgQbCfEIkD60")),
-             // home:Loginmain(),
-              home:PageMain(),
+              home:Loginmain(),
+             // home:PageMain(),
               //MainStateWidget(),
               // initialRoute: '/MainStateWidget',
               onGenerateRoute: RouteGenerator.generateRoute,

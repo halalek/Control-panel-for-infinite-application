@@ -28,9 +28,9 @@ Future<List<MarketData>> getMarketNode(SectionData sectionData) async {
   http.Response res = await http.post(
     url,
     headers: <String, String>{
-      'Content-Type': 'application/json; charset=UTF-8',
-      'Accept':'application/json',
-      'Access-Control-Allow-Origin': '*'
+       'Content-Type': 'application/json; charset=UTF-8',
+       'Accept':'application/json',
+       'Access-Control-Allow-Origin': '*'
     },
     body:jsonEncode({"id_section":sectionData.id}),
   );
@@ -41,6 +41,7 @@ Future<List<MarketData>> getMarketNode(SectionData sectionData) async {
     print("3333333333333333333333333333333333333333"+market.toString());
     return market;
   } else {
+    print("lolo");
     List<MarketData> market=[];
     return market;
   }
