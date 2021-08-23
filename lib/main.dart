@@ -17,8 +17,8 @@ import 'src/repository/user_repository.dart' as userRepo;
 import 'src/helpers/app_config.dart' as config;
 
 //flutter run -d chrome --web-port=8080 --web-hostname=ipconfig ipv4
-//flutter run -d chrome --web-port=8080 --web-hostname=ipconfigipv4 --web-renderer html
-//192.168.1.4
+//flutter run -d chrome --web-port=8080 --web-hostname=192.168.1.6 --web-renderer html
+//192.168.1.6
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await GlobalConfiguration().loadFromAsset("configurations");
@@ -50,8 +50,8 @@ class _MyAppState extends State<MyApp> {
               title: "",
 
              //home: PageMarket(SectionData(id: "LBs5s8ooNgQbCfEIkD60")),
-              home:Loginmain(),
-             // home:PageMain(),
+              //home:Loginmain(),
+              home:PageMain(),
               //MainStateWidget(),
               // initialRoute: '/MainStateWidget',
               onGenerateRoute: RouteGenerator.generateRoute,
@@ -66,7 +66,10 @@ class _MyAppState extends State<MyApp> {
               theme: _setting.brightness.value == Brightness.light
                   ? ThemeData(
                 fontFamily: 'Poppins',
-                primaryColor: Colors.white,
+                primaryColor: Colors.blue[900],
+                backgroundColor: Colors.blue[900],
+                primaryColorDark: Colors.blue[900],
+                primaryColorLight: Colors.blue[900],
                 floatingActionButtonTheme: FloatingActionButtonThemeData(elevation: 0, foregroundColor: Colors.white),
                 brightness: Brightness.light,
                 accentColor: config.ColorsApp().mainColor(1),
@@ -93,7 +96,10 @@ class _MyAppState extends State<MyApp> {
               )
                   : ThemeData(
                 fontFamily: 'Poppins',
-                primaryColor: Color(0xFF252525),
+                primaryColor: Colors.blue[900],
+                backgroundColor: Colors.blue[900],
+                primaryColorDark: Colors.blue[900],
+                primaryColorLight: Colors.blue[900],
                 brightness: Brightness.dark,
                 scaffoldBackgroundColor: Color(0xFF2C2C2C),
                 accentColor: config.ColorsApp().mainDarkColor(1),

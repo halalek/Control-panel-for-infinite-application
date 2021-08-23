@@ -5,150 +5,72 @@ import 'package:splashscreen/splashscreen.dart';
 import 'dart:async';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:http/http.dart';
-import 'package:structurepublic/src/controler/MarketController.dart';
-import 'package:structurepublic/src/elements/cardmarketWidget.dart';
+import 'package:structurepublic/src/controler/CategorizeController.dart';
+import 'package:structurepublic/src/controler/ProductController.dart';
+import 'package:structurepublic/src/elements/CategorizeCardWidget.dart';
+import 'package:structurepublic/src/elements/ProductCardWidget.dart';
+import 'package:structurepublic/src/models/CategorizeData.dart';
 import 'package:structurepublic/src/models/MarketData.dart';
-import 'package:structurepublic/src/models/SectionData.dart';
-import 'package:structurepublic/src/models/user.dart';
+import 'package:structurepublic/src/models/ProductData.dart';
 
 import 'SectionPage.dart';
 
-class PageMarket extends StatefulWidget {
-  //final SectionData sectionData;
-  final SectionData sectionData;
+class Products extends StatefulWidget {
+  final CategorizeData categorizeData;
 
-  PageMarket(this.sectionData);
+  int c = 0;
 
   @override
+  Products(
+    this.categorizeData,
+  );
+
   State<StatefulWidget> createState() {
     // TODO: implement createState
-    return _PageMarket(this.sectionData);
+    return _Products(this.categorizeData);
   }
 }
 
-class _PageMarket extends StateMVC<PageMarket> {
-  //final SectionData sectionData;
-  final SectionData sectionData;
-  PageMarketController _con2;
+class _Products extends StateMVC<Products> {
+  final CategorizeData categorizeData;
+  PageProductController _con;
 
-  // _PageMarket(this.sectionData) : super(PageMarketController(sectionData)) {
-  //   // _con = controller;
-  //   _con2 = controller;
-  // }
-
-  _PageMarket(this.sectionData) : super(PageMarketController(sectionData)) {
-    // _con = controller;
-    _con2 = controller;
+  _Products(this.categorizeData)
+      : super(PageProductController(categorizeData)) {
+    _con = controller;
   }
 
-  int point = 0;
-// زبطي الشكل يا دلال خليه توووب
-//   سطر مطعم صورة مطعم
-//   اسطر مطاعم
+  PageProductController _get() {
+    return _con;
+  }
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
     return Scaffold(
+      appBar: AppBar(
+        title: Text(categorizeData.nameAr),
+        backgroundColor: Theme.of(context).primaryColor,
+      ),
       body: Center(
         child: Container(
           color: Colors.grey[100],
-          child: ListView(
-            children: [
-              SizedBox(height: 30,),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SizedBox(height: 30,),
-                  CircleAvatar(
-                    radius: 50,
-                    backgroundColor: Colors.black12,
-                    backgroundImage: NetworkImage(
-                      sectionData.image,
-                    ),
-                  ),
-              ],),
-              SizedBox(height: 10,),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(sectionData.nameAr,style: TextStyle(fontSize: 30,fontWeight: FontWeight.bold),),
-                ],
-              ),
-              SizedBox(height: 30,),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: <Widget>[
-                        SizedBox(
-                          height: 20,
-                        ),
-                        for(int i=0;i<_con2.listMarket.length;i=i+3)
-                        CardMarketWidget(_con2.listMarket[i], _con2),
-                      ],
-                    ),
-                  ),
-                  Container(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        SizedBox(
-                          height: 20,
-                        ),
-                        for (int i = 1; i < _con2.listMarket.length; i = i + 3)
-                          CardMarketWidget(_con2.listMarket[i], _con2),
-                      ],
-                    ),
-                  ),
-                  Container(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        SizedBox(
-                          height: 20,
-                        ),
-                        for (int i = 2; i < _con2.listMarket.length; i = i + 3)
-                          CardMarketWidget(_con2.listMarket[i], _con2),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ],
+          child: GridView.count(
+            primary: false,
+            padding: const EdgeInsets.all(1.5),
+            crossAxisCount: 2,
+            childAspectRatio: 0.5,
+            mainAxisSpacing: 1.0,
+            crossAxisSpacing: 1.0,
+            shrinkWrap: true,
+            scrollDirection: Axis.horizontal,
+            children: List.generate(
+              _con.listProduct.length,
+                  (index) =>
+                      CardProductWidget(categorizeData, _con.listProduct[index], _con),
+            ),
           ),
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.blue[200],
-        foregroundColor: Colors.white,
-        child: Icon(Icons.add),
-        onPressed: () {
-          setState(() async {
-            MarketData newMarket = new MarketData();
-            newMarket.hide = false;
-            newMarket.image = "";
-            newMarket.id = "";
-            newMarket.nameAr = "";
-            newMarket.nameEn = "";
-            newMarket.long=0.0;
-            newMarket.lat=0.0;
-            newMarket.active=true;
-            newMarket.descriptionAr="";
-            newMarket.imageIcon="";
-            newMarket.descriptionEn="";
-            newMarket.owners=[];
-            newMarket.idSection=sectionData.id;
-            newMarket.timesTampClose=0;
-            newMarket.timesTampOpen=0;
-            newMarket.rating=0;
-            await _con2.showEditDialog(newMarket, _con2);
-            //_con.listProduct.add(newProductData);
-          });
-        },
       ),
       drawer: Drawer(
         child: Container(
@@ -306,13 +228,27 @@ class _PageMarket extends StateMVC<PageMarket> {
           ),
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.red[300],
+        foregroundColor: Colors.white,
+        child: Icon(Icons.add),
+        onPressed: () {
+          setState(() async {
+            ProductData newProductData = new ProductData();
+            newProductData.hide = false;
+            newProductData.id_categorize = categorizeData.id;
+            newProductData.image = "";
+            newProductData.id ="";
+            newProductData.description_ar = "";
+            newProductData.description_en = "";
+            newProductData.nameAr = "";
+            newProductData.nameEn = "";
+            newProductData.note = "";
+            newProductData.price = 0;
+            await _con.showEditDialog(newProductData, categorizeData, _con);
+          });
+        },
+      ),
     );
-  }
-
-  void navigetor(String app) async {
-    bool result =
-        await Navigator.push(context, MaterialPageRoute(builder: (context) {
-      //return Pagelist_detail();
-    }));
   }
 }

@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
+import 'package:structurepublic/src/elements/DialogEditSectionWidget.dart';
 import 'package:structurepublic/src/models/SectionData.dart';
 import 'package:structurepublic/src/repository/SectionRepository.dart' as repo;
 
@@ -20,6 +21,14 @@ class PageMainController extends ControllerMVC {
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
   List<SectionData> listSection = [];
+
+  TextEditingController _nameSectionAr = new TextEditingController();
+  TextEditingController _nameSectionEn = new TextEditingController();
+
+  TextEditingController get nameSectionAr => _nameSectionAr;
+  TextEditingController get nameSectionEn => _nameSectionEn;
+
+  String imageUrl;
 
   PageMainController() {
     loader = Helper.overlayLoader(context);
@@ -43,6 +52,59 @@ class PageMainController extends ControllerMVC {
      });
 
     });
+  }
+
+  Future getImage() async {
+    // File _image;
+    // final pickedFile = await ImagePicker.pickImage(source: ImageSource.gallery);
+    // setState(() async {
+    //   if (pickedFile != null) {
+    //     _image = await File(pickedFile.path);
+    //     imageUrl = await repo.upLoadImage(_image);
+    //   } else {
+    print('No image selected.');
+    //   }
+    //   imageUrl;
+    // });
+  }
+
+  showEditDialog(SectionData sectionData,
+      PageMainController pageMainController) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return EditSection(sectionData, pageMainController);
+        });
+  }
+
+
+  Future editSection(SectionData sectionData) async {
+    bool addToList=false;
+    if(sectionData.id.isEmpty){
+      addToList=true;
+      sectionData.id=Uuid().generateV4();
+    }
+    sectionData.nameAr = nameSectionAr.text;
+    sectionData.nameEn = nameSectionEn.text;
+    sectionData.image = imageUrl.toString();
+    await repo.postSectionNode(sectionData);
+    setState(() {
+      sectionData;
+      if(addToList){
+        listSection.add(sectionData);
+      }
+      listSection;
+    });
+    print("loooooooooooooooooooooooooooooooooooooooooooooooool");
+
+    print("hidehidehidehidehide");
+  }
+
+  Future hideSection(SectionData sectionData) async {
+    sectionData.hide = !sectionData.hide;
+    await repo.postSectionNode(sectionData);
+    setState((){sectionData.hide;});
+    print("hidehidehidehidehide");
   }
 
 }

@@ -5,150 +5,75 @@ import 'package:splashscreen/splashscreen.dart';
 import 'dart:async';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:http/http.dart';
-import 'package:structurepublic/src/controler/MarketController.dart';
-import 'package:structurepublic/src/elements/cardmarketWidget.dart';
+import 'package:structurepublic/src/controler/CategorizeController.dart';
+import 'package:structurepublic/src/controler/ProductController.dart';
+import 'package:structurepublic/src/controler/SoldController.dart';
+import 'package:structurepublic/src/elements/CategorizeCardWidget.dart';
+import 'package:structurepublic/src/elements/ProductCardWidget.dart';
+import 'package:structurepublic/src/elements/SoldCardWidget.dart';
+import 'package:structurepublic/src/models/CategorizeData.dart';
 import 'package:structurepublic/src/models/MarketData.dart';
-import 'package:structurepublic/src/models/SectionData.dart';
+import 'package:structurepublic/src/models/ProductData.dart';
+import 'package:structurepublic/src/models/SoldData.dart';
 import 'package:structurepublic/src/models/user.dart';
+import 'package:structurepublic/src/pages/DemandMarketPage.dart';
 
+import 'CategorizePage.dart';
 import 'SectionPage.dart';
 
-class PageMarket extends StatefulWidget {
-  //final SectionData sectionData;
-  final SectionData sectionData;
+class Sold extends StatefulWidget {
 
-  PageMarket(this.sectionData);
-
+  final MarketData marketData;
   @override
+  Sold(this.marketData);
+
   State<StatefulWidget> createState() {
     // TODO: implement createState
-    return _PageMarket(this.sectionData);
+    return _Sold(this.marketData);
   }
 }
 
-class _PageMarket extends StateMVC<PageMarket> {
-  //final SectionData sectionData;
-  final SectionData sectionData;
-  PageMarketController _con2;
-
-  // _PageMarket(this.sectionData) : super(PageMarketController(sectionData)) {
-  //   // _con = controller;
-  //   _con2 = controller;
-  // }
-
-  _PageMarket(this.sectionData) : super(PageMarketController(sectionData)) {
-    // _con = controller;
-    _con2 = controller;
+class _Sold extends StateMVC<Sold> {
+  SoldController _con;
+  final MarketData marketData;
+  _Sold(this.marketData)
+      : super(SoldController(marketData)) {
+    _con = controller;
   }
 
-  int point = 0;
-// زبطي الشكل يا دلال خليه توووب
-//   سطر مطعم صورة مطعم
-//   اسطر مطاعم
+  SoldController _get() {
+    return _con;
+  }
+
+  int point=2;
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
     return Scaffold(
+      appBar: AppBar(
+        title: Text("العروض"),
+        backgroundColor: Theme.of(context).primaryColor,
+      ),
       body: Center(
         child: Container(
           color: Colors.grey[100],
-          child: ListView(
-            children: [
-              SizedBox(height: 30,),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SizedBox(height: 30,),
-                  CircleAvatar(
-                    radius: 50,
-                    backgroundColor: Colors.black12,
-                    backgroundImage: NetworkImage(
-                      sectionData.image,
-                    ),
-                  ),
-              ],),
-              SizedBox(height: 10,),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(sectionData.nameAr,style: TextStyle(fontSize: 30,fontWeight: FontWeight.bold),),
-                ],
-              ),
-              SizedBox(height: 30,),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: <Widget>[
-                        SizedBox(
-                          height: 20,
-                        ),
-                        for(int i=0;i<_con2.listMarket.length;i=i+3)
-                        CardMarketWidget(_con2.listMarket[i], _con2),
-                      ],
-                    ),
-                  ),
-                  Container(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        SizedBox(
-                          height: 20,
-                        ),
-                        for (int i = 1; i < _con2.listMarket.length; i = i + 3)
-                          CardMarketWidget(_con2.listMarket[i], _con2),
-                      ],
-                    ),
-                  ),
-                  Container(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        SizedBox(
-                          height: 20,
-                        ),
-                        for (int i = 2; i < _con2.listMarket.length; i = i + 3)
-                          CardMarketWidget(_con2.listMarket[i], _con2),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ],
+          child: GridView.count(
+            primary: false,
+            padding: const EdgeInsets.all(1.5),
+            crossAxisCount: 2,
+            childAspectRatio: 0.5,
+            mainAxisSpacing: 1.0,
+            crossAxisSpacing: 1.0,
+            shrinkWrap: true,
+            scrollDirection: Axis.horizontal,
+            children: List.generate(
+              _con.listSold.length,
+                  (index) =>
+                      CardSoldWidget(marketData,_con.listSold[index])
+            ),
           ),
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.blue[200],
-        foregroundColor: Colors.white,
-        child: Icon(Icons.add),
-        onPressed: () {
-          setState(() async {
-            MarketData newMarket = new MarketData();
-            newMarket.hide = false;
-            newMarket.image = "";
-            newMarket.id = "";
-            newMarket.nameAr = "";
-            newMarket.nameEn = "";
-            newMarket.long=0.0;
-            newMarket.lat=0.0;
-            newMarket.active=true;
-            newMarket.descriptionAr="";
-            newMarket.imageIcon="";
-            newMarket.descriptionEn="";
-            newMarket.owners=[];
-            newMarket.idSection=sectionData.id;
-            newMarket.timesTampClose=0;
-            newMarket.timesTampOpen=0;
-            newMarket.rating=0;
-            await _con2.showEditDialog(newMarket, _con2);
-            //_con.listProduct.add(newProductData);
-          });
-        },
       ),
       drawer: Drawer(
         child: Container(
@@ -306,13 +231,100 @@ class _PageMarket extends StateMVC<PageMarket> {
           ),
         ),
       ),
-    );
-  }
+      // bottomNavigationBar: BottomNavigationBar(
+      //   currentIndex: point,
+      //   selectedFontSize: 15,
+      //   selectedItemColor: Theme.of(context).primaryColorDark,
+      //   unselectedItemColor: Colors.black45,
+      //   unselectedFontSize: 5,
+      //   items: [
+      //     BottomNavigationBarItem(
+      //       icon: Icon(
+      //         Icons.arrow_back,
+      //       ),
+      //       title: Text(
+      //         "عودة",
+      //       ),
+      //       backgroundColor: Colors.white38,
+      //     ),
+      //     BottomNavigationBarItem(
+      //       icon: Icon(
+      //         Icons.local_grocery_store,
+      //       ),
+      //       title: Text(
+      //         " الطلبات",
+      //       ),
+      //       backgroundColor:Colors.white38,
+      //     ),
+      //     BottomNavigationBarItem(
+      //       icon: Icon(
+      //         Icons.style,
+      //       ),
+      //       title: Text(
+      //         " العروض",
+      //       ),
+      //       backgroundColor:Colors.white38,
+      //     ),
+      //     BottomNavigationBarItem(
+      //       icon: Icon(
+      //         Icons.local_mall,
+      //       ),
+      //       title: Text(
+      //         " الأصناف",
+      //       ),
+      //       backgroundColor:Colors.white38,
+      //     ),
+      //   ],
+      //   onTap: (index) {
+      //     setState(() {
+      //         point = index;
+      //         if (point == 0) {
+      //           Navigator.pop(context);
+      //         }
+      //         if (point == 1) {
+      //           Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
+      //             return MarketDemand(admins, marketData);
+      //           }));
+      //         }
+      //         if (point == 2) {
+      //           Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>Sold(marketData,admins)
+      //           ));
+      //         }
+      //         if (point == 3) {
+      //           Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>Categorize(marketData,admins),
+      //           ));
+      //         }
+      //     });
+      //   },
+      // ),
 
-  void navigetor(String app) async {
-    bool result =
-        await Navigator.push(context, MaterialPageRoute(builder: (context) {
-      //return Pagelist_detail();
-    }));
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.red[900],
+        foregroundColor: Colors.white,
+        child: Icon(Icons.add),
+        onPressed: () {
+          setState(() async {
+            SoldData newSoldData = new SoldData();
+            newSoldData.hide = false;
+            newSoldData.timesTamp=0;
+            newSoldData.timeSend=DateTime.now().toString();
+            newSoldData.image = "";
+            newSoldData.imageIcon = marketData.imageIcon;
+            newSoldData.longDay=0;
+            newSoldData.price=0;
+            newSoldData.lastPrice=0;
+            newSoldData.id ="";
+            newSoldData.idMarket="";
+            newSoldData.descriptionAr = "";
+            newSoldData.descriptionEn = "";
+            newSoldData.nameAr="";
+            newSoldData.nameEn="";
+            newSoldData.nameMarketAr="";
+            newSoldData.nameMarketEn="";
+            await _con.showEditDialog(marketData, newSoldData, _con);
+          });
+        },
+      ),
+    );
   }
 }

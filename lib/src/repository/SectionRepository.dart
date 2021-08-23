@@ -46,3 +46,45 @@ Future<List<SectionData>> getSections() async {
   print("hala" + list.length.toString());
   return list;
 }
+
+
+Future<List<SectionData>> getSectionNode() async {
+  var url = Uri.parse('https://infinityserver2020.herokuapp.com/section/get/');
+
+  http.Response res = await http.post(
+    url,
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+    },
+  );
+  if (res.statusCode == 200) {
+    List<dynamic> body = jsonDecode(res.body);
+    List<SectionData> section=[];
+    section=body.map((p) => SectionData.fromJson(p)).toList();
+    return section;
+  } else {
+    List<SectionData> section=[];
+    return section;
+  }
+}
+
+
+
+void postSectionNode(SectionData sectionData)async{
+  var url = Uri.parse('https://infinityserver2020.herokuapp.com/section/');
+  var response = await http.post(
+    url,
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+    },
+    body: jsonEncode({
+      "hide" : sectionData.hide,
+      "id" : sectionData.id,
+      "image" : sectionData.image,
+      "name_ar" : sectionData.nameAr,
+      "name_en" : sectionData.nameEn,
+      "timesTamp":sectionData.timesTamp
+    }),
+  );
+  print(response.body.toString());
+}

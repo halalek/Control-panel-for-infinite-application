@@ -1,88 +1,83 @@
 import '../helpers/custom_trace.dart';
 
-class User {
+class Userss {
   String id;
   String name;
   String email;
-  String password;
-  String apiToken;
-  String deviceToken;
-  String phone;
-  String verify_code;
+  String token;
+  String image;
+  double lat;
+  double long;
+  String role;
+  int timesTamp;
+  int phone;
 
-  String address;
-  String bio;
+  Userss({
+    this.token,
+    this.lat,
+    this.long,
+    this.role,
+    this.phone,
+    this.image,
+    this.email,
+    this.id,
+    this.timesTamp,
+    this.name,
+  });
 
-  // used for indicate if client logged in or not
-  bool auth;
+  // ignore: non_constant_identifier_names
+  void UserssLogin(String id,String email)
+  {this.id=id; this.email=email;}
 
-//  String role;
 
-  User();
+  // ignore: non_constant_identifier_names
+  Userss UserSet(Userss userss)
+  {return userss;}
 
-  User.fromJSON(Map<String, dynamic> jsonMap) {
-    try {
-      id = jsonMap['id'].toString();
-      name = jsonMap['name'] != null ? jsonMap['name'] : '';
-      email = jsonMap['email'] != null ? jsonMap['email'] : '';
-      apiToken = jsonMap['api_token'];
-      deviceToken = jsonMap['device_token'];
-      try {
-        phone = jsonMap['custom_fields']['phone']['view'];
-      } catch (e) {
-        phone = "";
-      }
-      if (phone == null){
-        try {
-          phone = jsonMap['phone'];
-        } catch (e) {
-          phone = "";
-        }
-      }
-      if (phone == null){
-        phone = "";
-      }
-      try {
-        address = jsonMap['custom_fields']['address']['view'];
-      } catch (e) {
-        address = "";
-      }
-      try {
-        bio = jsonMap['custom_fields']['bio']['view'];
-      } catch (e) {
-        bio = "";
-      }
-    } catch (e) {
-      print(CustomTrace(StackTrace.current, message: e));
-    }
-  }
 
-  Map toMap() {
-    var map = new Map<String, dynamic>();
-    map["id"] = id;
-    map["email"] = email;
-    map["name"] = name;
-    map["password"] = password;
-    map["api_token"] = apiToken;
-    if (deviceToken != null) {
-      map["device_token"] = deviceToken;
-    }
-    map["phone"] = phone;
-    map["verification_code"] = verify_code;
+  // ignore: non_constant_identifier_names
+  void UserssSign(String id, String name, String email,String token,String role)
+  {this.id=id; this.name=name; this.email=email;this.token=token;this.role=role;this.image="https://www.pngkey.com/png/full/284-2844044_fashion-toys-electrical-items-and-more-girl-with.png";}
 
-    map["address"] = address;
-    map["bio"] = bio;
-    return map;
-  }
+
+
+
+  factory Userss.fromJson(Map<String, dynamic> json) => Userss(
+    name: json["name"] == null ? null : json["name"],
+    id: json["id"] == null ? null : json["id"],
+    token: json["token"] == null ? null : json["token"],
+    lat: json["lat"] == null ? null : json["lat"],
+    long: json["long"] == null ? null : json["long"],
+    role: json["role"] == null ? null : json["role"],
+    phone: json["phone"] == null ? null : json["phone"],
+    email: json["email"] == null ? null : json["email"],
+    timesTamp: json["timesTamp"] == null ? null : json["timesTamp"],
+    image: json["image"] == null ? null : json["image"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "long": long == null ? null :long,
+    "token": token == null ? null :token,
+    "lat":  lat == null ? null :  lat,
+    "role": role == null ? null : role,
+    "phone":  phone == null ? null :  phone,
+    "email": email == null ? null : email,
+    "id": id == null ? null : id,
+    "timesTamp": timesTamp == null ? null : timesTamp,
+    "name": name == null ? null : name,
+    "image": image == null ? null : image,
+  };
+
 
   @override
   String toString() {
-    var map = this.toMap();
-    map["auth"] = this.auth;
-    return map.toString();
+    // var map = this.toMap();
+    // map["auth"] = this.auth;
+    // return map.toString();
   }
 
   bool profileCompleted() {
-    return address != null && address != '' && phone != null && phone != '';
+    return email != null  ;
+    //return address != null && address != '' && phone != null && phone != '';
   }
 }

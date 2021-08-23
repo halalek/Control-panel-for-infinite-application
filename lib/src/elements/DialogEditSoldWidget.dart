@@ -1,54 +1,73 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:structurepublic/src/controler/MarketController.dart';
+import 'package:structurepublic/src/controler/ProductController.dart';
+import 'package:structurepublic/src/controler/SoldController.dart';
+import 'package:structurepublic/src/models/CategorizeData.dart';
 import 'package:structurepublic/src/models/MarketData.dart';
+import 'package:structurepublic/src/models/ProductData.dart';
+import 'package:structurepublic/src/models/SoldData.dart';
 
-
-class EditMarket extends StatefulWidget {
+class AddSold extends StatefulWidget {
+  final SoldData soldData;
+  final SoldController _controller;
   final MarketData marketData;
-  final PageMarketController marketController;
 
-  const EditMarket(this.marketData, this.marketController);
+  const AddSold(this.soldData, this._controller, this.marketData);
 
   @override
-  _EditMarketState createState() {
-    return _EditMarketState(this.marketData, this.marketController);
+  _AddSoldState createState() {
+    return _AddSoldState(this.soldData, this._controller, this.marketData);
   }
 }
 
-class _EditMarketState extends State<EditMarket> {
+class _AddSoldState extends State<AddSold> {
+  final SoldData soldData;
+  final SoldController _controller;
   final MarketData marketData;
-  final PageMarketController marketController;
 
-  bool imageError = false;
-
-  _EditMarketState(this.marketData, this.marketController) {
-    marketController.imageUrlIcon = marketData.imageIcon;
-    marketController.imageUrl = marketData.image;
-    marketController.descriptionAr.text = marketData.descriptionAr;
-    marketController.descriptionEn.text = marketData.descriptionEn;
-    marketController.nameAr.text = marketData.nameAr;
-    marketController.nameEn.text = marketData.nameEn;
-    marketController.long = marketData.long;
-    marketController.lat = marketData.lat;
-    //LatLng latLng = new LatLng(marketData.lat, marketData.lat);
-    //marketController.locationResultMarket = new LocationResult(latLng: LatLng(marketData.lat,marketData.long),address: null);
-    //marketController.locationResultMarket.latLng=marketData.lat as LatLng;
-    marketController.open = TimeOfDay(
-        hour:
-            DateTime.fromMillisecondsSinceEpoch(marketData.timesTampOpen).hour,
-        minute: DateTime.fromMillisecondsSinceEpoch(marketData.timesTampOpen)
-            .minute);
-    marketController.close = TimeOfDay(
-        hour:
-            DateTime.fromMillisecondsSinceEpoch(marketData.timesTampClose).hour,
-        minute: DateTime.fromMillisecondsSinceEpoch(marketData.timesTampClose)
-            .minute);
+  _AddSoldState(this.soldData, this._controller, this.marketData) {
+    _controller.imageUrl = soldData.image;
+    _controller.nameAr.text = soldData.nameAr;
+    _controller.nameEn.text = soldData.nameEn;
+    _controller.descriptionSoldAr.text = soldData.descriptionAr;
+    _controller.descriptionSoldEn.text = soldData.descriptionEn;
+    if (soldData.price != 0) {
+      _controller.price.text = soldData.price.toString();
+    }
+    if (soldData.lastPrice != 0) {
+      _controller.lastPrice.text = soldData.lastPrice.toString();
+    }
+    if (soldData.longDay != 0) {
+      _controller.longDaySold.text = soldData.longDay.toString();
+    }
   }
 
   final _formkey = GlobalKey<FormState>();
+
+  String convertDate(DateTime dateTime) {
+    String stateDate;
+    if (dateTime.hour >= 12)
+      stateDate = "PM";
+    else if (dateTime.hour < 12) stateDate = "AM";
+
+    String ourDate =
+        "${dateTime.year.toString()}/${dateTime.month.toString()}/${dateTime.day.toString()}\t\t\t${dateTime.hour.toString()}:${dateTime.minute.toString()}:${dateTime.second.toString()}\t\t $stateDate";
+    // ourDate+=dateTime.year.toString();
+    // ourDate+="-";
+    // ourDate+=dateTime.month.toString();
+    // ourDate+="-";
+    // ourDate+=dateTime.day.toString();
+    // ourDate+="  |  ";
+    // ourDate+=dateTime.hour.toString();
+    // ourDate+=":";
+    // ourDate+=dateTime.minute.toString();
+    // ourDate+=":";
+    // ourDate+=dateTime.second.toString();
+    return ourDate;
+  }
+
+  bool imageError = false;
 
   @override
   Widget build(BuildContext context) {
@@ -62,23 +81,10 @@ class _EditMarketState extends State<EditMarket> {
         child: ListView(
           children: <Widget>[
             Container(
-              padding: EdgeInsets.all(10),
-              child: Row(
-                children: [
-                  Icon(
-                    marketData.active?Icons.visibility:Icons.visibility_off,
-                    color: marketData.active?Colors.green:Colors.red,
-                  ),
-                  Text(marketData.active?"\t\t\tActive":"\t\t\tNo Active",
-                    style: TextStyle(color: marketData.active?Colors.green:Colors.red,),),
-                ],
-              ),
-            ),
-            Container(
               child: Stack(
                 children: <Widget>[
                   Container(
-                    height: 300,
+                    height: 350,
                     width: double.maxFinite,
                     child: Card(
                       semanticContainer: true,
@@ -86,6 +92,27 @@ class _EditMarketState extends State<EditMarket> {
                       child: GestureDetector(
                         child: Column(
                           children: <Widget>[
+                            Row(
+                              children: <Widget>[
+                                Container(
+                                  padding: EdgeInsets.only(top: 10, bottom: 10),
+                                  color: Colors.white,
+                                  child: Text(
+                                    // "\t\t\t\t\t" +
+                                    //     convertDate(
+                                    //         DateTime.fromMicrosecondsSinceEpoch(
+                                    //             soldData.timesTamp)),
+                                    "\t\t\t\t\t" +
+                                        convertDate(
+                                            DateTime.parse(soldData.timeSend)),
+                                    style: TextStyle(
+                                        fontSize: 10,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.lightGreen),
+                                  ),
+                                ),
+                              ],
+                            ),
                             new SizedBox(
                               height: 200,
                               width: MediaQuery.of(context).size.width,
@@ -95,45 +122,40 @@ class _EditMarketState extends State<EditMarket> {
                                         'assets/img/loading.gif',
                                         fit: BoxFit.cover,
                                       ),
-                                  image: NetworkImage(
-                                      marketController.imageUrl),
+                                  image: CachedNetworkImageProvider(
+                                      _controller.imageUrl),
                                   fit: BoxFit.cover),
                             ),
                             Expanded(
                               child: ListTile(
-                                tileColor: marketData.hide == false
-                                    ? Colors.white
-                                    : Colors.grey,
+                                tileColor: Colors.white,
+                                trailing: Text(
+                                  soldData.price.toString(),
+                                  style: TextStyle(
+                                      fontSize: 15, color: Colors.red[300]),
+                                ),
                                 leading: CircleAvatar(
-                                  child: MaterialButton(
-                                    onPressed: () {
-                                      setState(() {
-                                        this.marketController.getImageIcon();
-                                      });
-                                    },
-                                    minWidth: 0.0,
-                                  ),
                                   backgroundColor: Colors.black12,
-                                  backgroundImage: NetworkImage(
-                                    marketController.imageUrlIcon,
+                                  backgroundImage: CachedNetworkImageProvider(
+                                    soldData.imageIcon,
                                   ),
                                 ),
                                 title: Text(
-                                  marketData.nameAr,
+                                  _controller.nameAr.text,
                                   style: TextStyle(
                                       fontSize: 20,
                                       fontWeight: FontWeight.bold),
                                 ),
-                                //subtitle: Text(marketController.locationMarket.toString()),
                                 subtitle: Text(
-                                  marketData.descriptionAr,
+                                  _controller.descriptionSoldAr.text,
+                                  style: TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w400),
                                 ),
-                                onTap: () {},
                               ),
                             )
                           ],
                         ),
-                        onTap: () {},
                       ),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10.0),
@@ -155,7 +177,7 @@ class _EditMarketState extends State<EditMarket> {
                         child: MaterialButton(
                           onPressed: () {
                             setState(() {
-                              this.marketController.getImage();
+                              this._controller.getImage();
                             });
                           },
                           minWidth: 0.0,
@@ -177,12 +199,12 @@ class _EditMarketState extends State<EditMarket> {
             if (imageError)
               Center(
                 child: Text(
-                  "الرجاء التأكد من ادخال صورة غلاف و أيقونة المتجر",
+                  "الرجاء التأكد من ادخال صورة عن العرض",
                   style: TextStyle(color: Colors.red),
                 ),
               ),
             SizedBox(
-              height: 20,
+              height: 30,
             ),
             Container(
               margin: EdgeInsets.all(10),
@@ -192,18 +214,18 @@ class _EditMarketState extends State<EditMarket> {
                   children: <Widget>[
                     TextFormField(
                       keyboardType: TextInputType.text,
-                      controller: marketController.nameAr,
+                      controller: _controller.nameAr,
                       decoration: InputDecoration(
-                        labelText: ' اسم المتجر بالعربي',
+                        labelText: 'اسم العرض بالعربي',
                       ),
                       onChanged: (text) {
                         setState(() {
-                          marketData.nameAr = marketController.nameAr.text;
+                          soldData.nameAr = _controller.nameAr.text;
                         });
                       },
                       validator: (value) {
                         if (value.isEmpty) {
-                          return 'الرجاء ادخال اسم المتجر بالعربي';
+                          return 'الرجاء ادخال اسم العرض بالعربي';
                         }
                         return null;
                       },
@@ -213,18 +235,18 @@ class _EditMarketState extends State<EditMarket> {
                     ),
                     TextFormField(
                       keyboardType: TextInputType.text,
-                      controller: marketController.nameEn,
+                      controller: _controller.nameEn,
                       decoration: InputDecoration(
-                        labelText: 'Market Name In English',
+                        labelText: 'Sold Name In English',
                       ),
                       onChanged: (text) {
                         setState(() {
-                          marketData.nameEn = marketController.nameEn.text;
+                          soldData.nameEn = _controller.nameEn.text;
                         });
                       },
                       validator: (value) {
                         if (value.isEmpty) {
-                          return 'Please Enter Market Name In English';
+                          return 'Please Enter Sold Name';
                         }
                         return null;
                       },
@@ -234,19 +256,19 @@ class _EditMarketState extends State<EditMarket> {
                     ),
                     TextFormField(
                       keyboardType: TextInputType.text,
-                      controller: marketController.descriptionAr,
+                      controller: _controller.descriptionSoldAr,
                       decoration: InputDecoration(
-                        labelText: 'وصف المتجر بالعربي',
+                        labelText: 'وصف العرض بالعربي',
                       ),
                       onChanged: (text) {
                         setState(() {
-                          marketData.descriptionAr =
-                              marketController.descriptionAr.text;
+                          soldData.descriptionAr =
+                              _controller.descriptionSoldAr.text;
                         });
                       },
                       validator: (value) {
                         if (value.isEmpty) {
-                          return 'الرجاء ادخال وصف المتجر بالعربي';
+                          return 'الرجاء ادخال وصف العرض بالعربي';
                         }
                         return null;
                       },
@@ -256,93 +278,94 @@ class _EditMarketState extends State<EditMarket> {
                     ),
                     TextFormField(
                       keyboardType: TextInputType.text,
-                      controller: marketController.descriptionEn,
+                      controller: _controller.descriptionSoldEn,
                       decoration: InputDecoration(
-                        labelText: 'Market Description In English',
+                        labelText: 'Sold Description In English',
                       ),
                       onChanged: (text) {
                         setState(() {
-                          marketData.descriptionEn =
-                              marketController.descriptionEn.text;
+                          soldData.descriptionEn =
+                              _controller.descriptionSoldEn.text;
                         });
                       },
                       validator: (value) {
                         if (value.isEmpty) {
-                          return 'Please Enter Market Description';
+                          return 'Please Enter Sold Description';
                         }
                         return null;
                       },
                     ),
                     SizedBox(
-                      height: 30,
+                      height: 20,
                     ),
-                    MaterialButton(
-                      onPressed: () {
-                        marketController.selectTimeOpen();
+                    TextFormField(
+                      keyboardType: TextInputType.number,
+                      controller: _controller.price,
+                      decoration: InputDecoration(
+                        labelText: 'سعر العرض',
+                      ),
+                      onChanged: (text) {
                         setState(() {
-                          marketController.open;
+                          soldData.price = int.parse(_controller.price.text);
                         });
                       },
-                      child: Row(
-                        children: [
-                          Icon(Icons.more_time, color: Colors.lightBlue),
-                          SizedBox(width: 10),
-                          Text(
-                              'Time Open is : ${marketController.open.format(context)}'),
-                        ],
-                      ),
+                      validator: (value) {
+                        if (value.isEmpty) {
+                          return 'الرجاء ادخال سعر العرض';
+                        }
+                        return null;
+                      },
                     ),
                     SizedBox(
-                      height: 10,
+                      height: 20,
                     ),
-                    MaterialButton(
-                      onPressed: () {
-                        marketController.selectTimeClose();
+                    TextFormField(
+                      keyboardType: TextInputType.number,
+                      controller: _controller.lastPrice,
+                      decoration: InputDecoration(
+                        labelText: 'السعر القديم للعرض',
+                      ),
+                      onChanged: (text) {
                         setState(() {
-                          marketController.close;
+                          soldData.lastPrice =
+                              int.parse(_controller.lastPrice.text);
                         });
                       },
-                      child: Row(
-                        children: [
-                          Icon(Icons.more_time, color: Colors.red),
-                          SizedBox(width: 10),
-                          Text(
-                              'Time Close is : ${marketController.close.format(context)}'),
-                        ],
-                      ),
+                      validator: (value) {
+                        if (value.isEmpty) {
+                          return 'الرجاء ادخال السعر القديم للعرض';
+                        }
+                        return null;
+                      },
                     ),
                     SizedBox(
-                      height: 30,
+                      height: 20,
+                    ),
+                    TextFormField(
+                      keyboardType: TextInputType.number,
+                      controller: _controller.longDaySold,
+                      decoration: InputDecoration(
+                        labelText: 'مدة عرض العرض بالأيام',
+                      ),
+                      onChanged: (text) {
+                        setState(() {
+                          soldData.longDay =
+                              int.parse(_controller.longDaySold.text);
+                        });
+                      },
+                      validator: (value) {
+                        if (value.isEmpty) {
+                          return 'أدخل عدد أيام عرض العرض';
+                        }
+                        return null;
+                      },
+                    ),
+                    SizedBox(
+                      height: 100,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: <Widget>[
-                        Expanded(
-                          child: MaterialButton(
-                            minWidth: 10,
-                            height: 10,
-                            child: Icon(
-                              Icons.edit_location_outlined,
-                              color: Colors.green,
-                              size: 25,
-                            ),
-                            onPressed: () async {
-                              // showLocationPicker(
-                              //   context, "AIzaSyDO3WfoiEpkRKCiMePjGszgKZdHvycs_jI",
-                              //   initialCenter: LatLng(31.1975844, 29.9598339),
-                              //   myLocationButtonEnabled: true,
-                              //   layersButtonEnabled: true,
-                              //   //countries: ['AE', 'NG'],
-                              // );
-                              await this
-                                  .marketController
-                                  .editLocation(marketData);
-                              //print("aaaaaaaaaaaaaaaaallllllllllooooooooooooooooooo${marketController.locationMarket.latitude.toString()}");
-                             // dispose();
-                              // Navigator.pop(context);
-                            },
-                          ),
-                        ),
                         MaterialButton(
                           minWidth: 10,
                           height: 10,
@@ -353,8 +376,7 @@ class _EditMarketState extends State<EditMarket> {
                           ),
                           onPressed: () {
                             setState(() {
-                              this.marketController.imageUrl;
-                              this.marketController.imageUrlIcon;
+                              this._controller.imageUrl;
                             });
                             // dispose();
                             // Navigator.pop(context);
@@ -369,24 +391,19 @@ class _EditMarketState extends State<EditMarket> {
                             size: 30,
                           ),
                           onPressed: () async {
-                            if (marketController.imageUrl.isEmpty ||
-                                marketController.imageUrl == null ||
-                                marketController.imageUrlIcon.isEmpty ||
-                                marketController.imageUrlIcon == null) {
+                            if (_controller.imageUrl.isEmpty ||
+                                _controller.imageUrl == null) {
                               setState(() {
                                 imageError = true;
                               });
-                            } else if (marketController.imageUrl.isNotEmpty ||
-                                marketController.imageUrl != null ||
-                                marketController.imageUrlIcon.isNotEmpty ||
-                                marketController.imageUrlIcon != null) {
+                            } else if (_controller.imageUrl.isNotEmpty ||
+                                _controller.imageUrl != null) {
                               setState(() {
                                 imageError = false;
                               });
                             }
-                            if (_formkey.currentState.validate() &&
-                                !imageError) {
-                              await marketController.editMarket(marketData);
+                            if (_formkey.currentState.validate()) {
+                              await _controller.addSold(marketData, soldData);
                               dispose();
                               Navigator.pop(context);
                             }

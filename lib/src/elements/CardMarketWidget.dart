@@ -4,6 +4,7 @@ import 'package:mvc_pattern/mvc_pattern.dart';
 import 'package:structurepublic/src/controler/MarketController.dart';
 import 'package:structurepublic/src/models/MarketData.dart';
 import 'package:structurepublic/src/models/user.dart';
+import 'package:structurepublic/src/pages/CategorizePage.dart';
 
 class CardMarketWidget extends StatefulWidget {
   const CardMarketWidget(this.marketData, this.pageMarketController);
@@ -81,18 +82,18 @@ class _CardMarketWidgetState extends State<CardMarketWidget> {
                           ),
                         ),
                         onTap: () {
-                          // Navigator.push(
-                          //     context,
-                          //     MaterialPageRoute(
-                          //         builder: (context) =>
-                          //             Categorize(marketData,admins)));
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      Categorize(marketData)));
                         },
                       ),
                       onTap: () {
-                        // Navigator.push(
-                        //     context,
-                        //     MaterialPageRoute(
-                        //         builder: (context) => Categorize(marketData,admins)));
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => Categorize(marketData)));
                       },
                     ),
                   )

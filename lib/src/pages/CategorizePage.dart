@@ -1,155 +1,119 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
 import 'package:splashscreen/splashscreen.dart';
 import 'dart:async';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:http/http.dart';
-import 'package:structurepublic/src/controler/MarketController.dart';
-import 'package:structurepublic/src/elements/cardmarketWidget.dart';
+import 'package:structurepublic/src/controler/CategorizeController.dart';
+import 'package:structurepublic/src/elements/CategorizeCardWidget.dart';
+import 'package:structurepublic/src/models/CategorizeData.dart';
 import 'package:structurepublic/src/models/MarketData.dart';
-import 'package:structurepublic/src/models/SectionData.dart';
 import 'package:structurepublic/src/models/user.dart';
+import 'package:structurepublic/src/pages/DemandMarketPage.dart';
+import 'package:structurepublic/src/pages/Sold.dart';
 
 import 'SectionPage.dart';
+// ignore: must_be_immutable
+class Categorize extends StatefulWidget {
+  final MarketData marketData;
+  Categorize(this.marketData);
 
-class PageMarket extends StatefulWidget {
-  //final SectionData sectionData;
-  final SectionData sectionData;
-
-  PageMarket(this.sectionData);
+  int c = 0;
 
   @override
   State<StatefulWidget> createState() {
     // TODO: implement createState
-    return _PageMarket(this.sectionData);
+    return _Categorize(this.marketData);
   }
 }
 
-class _PageMarket extends StateMVC<PageMarket> {
-  //final SectionData sectionData;
-  final SectionData sectionData;
-  PageMarketController _con2;
+class _Categorize extends StateMVC<Categorize> {
+  final MarketData marketData;
+  CategorizeData categorizeData;
 
-  // _PageMarket(this.sectionData) : super(PageMarketController(sectionData)) {
-  //   // _con = controller;
-  //   _con2 = controller;
-  // }
+  PageCategorizeController _categorizeController;
 
-  _PageMarket(this.sectionData) : super(PageMarketController(sectionData)) {
-    // _con = controller;
-    _con2 = controller;
+  _Categorize(this.marketData)
+      : super(
+          PageCategorizeController(marketData),
+        ) {
+    _categorizeController = controller;
+    //_con= _categorizeDetail._get();
+
+    //_con=controller;
   }
 
-  int point = 0;
-// زبطي الشكل يا دلال خليه توووب
-//   سطر مطعم صورة مطعم
-//   اسطر مطاعم
+  bool select = false;
+  int point = 3;
+  int pointt = 0;
+  int z = 0;
+
+  // _ProductDetail(this.pointt);
+  Decoration _decoration1 = BoxDecoration(
+    color: Colors.black12,
+  );
+  Decoration _decoration = BoxDecoration(
+    color: Colors.white24,
+    border: Border(
+      bottom: BorderSide(width: 1),
+    ),
+  );
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
     return Scaffold(
-      body: Center(
-        child: Container(
-          color: Colors.grey[100],
-          child: ListView(
-            children: [
-              SizedBox(height: 30,),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SizedBox(height: 30,),
-                  CircleAvatar(
-                    radius: 50,
-                    backgroundColor: Colors.black12,
-                    backgroundImage: NetworkImage(
-                      sectionData.image,
-                    ),
+      body: ListView(shrinkWrap: true, children: [
+        Container(
+            height: MediaQuery.of(context).size.height,
+            child: Column(children: [
+              Container(
+                height: 130,
+                width: MediaQuery.of(context).size.width,
+                child: TextField(
+                  decoration: InputDecoration(
+                    hintText: "البحث ....",
+                    icon: Icon(Icons.search),
                   ),
-              ],),
-              SizedBox(height: 10,),
+                ),
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: CachedNetworkImageProvider(marketData.image),
+                    fit: BoxFit.cover,
+                    alignment: Alignment.topCenter,
+                  ),
+                ),
+              ),
               Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+                //demand and sold....................
                 children: [
-                  Text(sectionData.nameAr,style: TextStyle(fontSize: 30,fontWeight: FontWeight.bold),),
+
                 ],
               ),
-              SizedBox(height: 30,),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: <Widget>[
-                        SizedBox(
-                          height: 20,
-                        ),
-                        for(int i=0;i<_con2.listMarket.length;i=i+3)
-                        CardMarketWidget(_con2.listMarket[i], _con2),
-                      ],
+              Expanded(
+                  child: GridView.count(
+                    primary: false,
+                    padding: const EdgeInsets.all(1.5),
+                    crossAxisCount: 2,
+                    childAspectRatio: 0.6,
+                    mainAxisSpacing: 1.0,
+                    crossAxisSpacing: 1.0,
+                    shrinkWrap: true,
+                    scrollDirection: Axis.horizontal,
+                    children: List.generate(
+                      _categorizeController.listCategorize.length,
+                          (index) => CardCategorizeWidget(
+                          _categorizeController.listCategorize[index],
+                          _categorizeController,
+                          marketData),
                     ),
-                  ),
-                  Container(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        SizedBox(
-                          height: 20,
-                        ),
-                        for (int i = 1; i < _con2.listMarket.length; i = i + 3)
-                          CardMarketWidget(_con2.listMarket[i], _con2),
-                      ],
-                    ),
-                  ),
-                  Container(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        SizedBox(
-                          height: 20,
-                        ),
-                        for (int i = 2; i < _con2.listMarket.length; i = i + 3)
-                          CardMarketWidget(_con2.listMarket[i], _con2),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.blue[200],
-        foregroundColor: Colors.white,
-        child: Icon(Icons.add),
-        onPressed: () {
-          setState(() async {
-            MarketData newMarket = new MarketData();
-            newMarket.hide = false;
-            newMarket.image = "";
-            newMarket.id = "";
-            newMarket.nameAr = "";
-            newMarket.nameEn = "";
-            newMarket.long=0.0;
-            newMarket.lat=0.0;
-            newMarket.active=true;
-            newMarket.descriptionAr="";
-            newMarket.imageIcon="";
-            newMarket.descriptionEn="";
-            newMarket.owners=[];
-            newMarket.idSection=sectionData.id;
-            newMarket.timesTampClose=0;
-            newMarket.timesTampOpen=0;
-            newMarket.rating=0;
-            await _con2.showEditDialog(newMarket, _con2);
-            //_con.listProduct.add(newProductData);
-          });
-        },
-      ),
+                  )),
+            ])),
+      ]),
       drawer: Drawer(
         child: Container(
           padding: EdgeInsets.all(10),
@@ -306,13 +270,59 @@ class _PageMarket extends StateMVC<PageMarket> {
           ),
         ),
       ),
+      floatingActionButton:Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          SizedBox(height: 10,),
+          FloatingActionButton(
+            backgroundColor: Colors.blue[200],
+            foregroundColor: Colors.white,
+            child: Icon(Icons.shopping_cart),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => MarketDemand(marketData),
+                ),
+              );
+            },
+          ),
+          SizedBox(height: 10,),
+          FloatingActionButton(
+            backgroundColor: Colors.blue[200],
+            foregroundColor: Colors.white,
+            child: Icon(Icons.style),
+            onPressed: () {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => Sold(marketData),
+                ),
+              );
+            },
+          ),
+          SizedBox(height: 10,),
+          FloatingActionButton(
+            backgroundColor: Colors.blue[200],
+            foregroundColor: Colors.white,
+            child: Icon(Icons.add),
+            onPressed: () {
+              setState(() async {
+                CategorizeData newcategorize = new CategorizeData();
+                newcategorize.hide = false;
+                newcategorize.image = "";
+                newcategorize.id = "";
+                newcategorize.nameAr = "";
+                newcategorize.nameEn = "";
+                await _categorizeController.showEditDialog(
+                    marketData, newcategorize, _categorizeController);
+                //_con.listProduct.add(newProductData);
+              });
+            },
+          ),
+          SizedBox(height: 10,),
+        ],
+      )
     );
-  }
-
-  void navigetor(String app) async {
-    bool result =
-        await Navigator.push(context, MaterialPageRoute(builder: (context) {
-      //return Pagelist_detail();
-    }));
   }
 }
