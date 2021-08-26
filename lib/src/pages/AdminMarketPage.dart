@@ -15,20 +15,20 @@ import 'SectionPage.dart';
 
 class PageMarket extends StatefulWidget {
   //final SectionData sectionData;
-  final SectionData sectionData;
+  final Userss admin;
 
-  PageMarket(this.sectionData);
+  PageMarket(this.admin);
 
   @override
   State<StatefulWidget> createState() {
     // TODO: implement createState
-    return _PageMarket(this.sectionData);
+    return _PageMarket(this.admin);
   }
 }
 
 class _PageMarket extends StateMVC<PageMarket> {
   //final SectionData sectionData;
-  final SectionData sectionData;
+  final Userss admin;
   PageMarketController _con2;
 
   // _PageMarket(this.sectionData) : super(PageMarketController(sectionData)) {
@@ -36,15 +36,19 @@ class _PageMarket extends StateMVC<PageMarket> {
   //   _con2 = controller;
   // }
 
-  _PageMarket(this.sectionData) : super(PageMarketController(sectionData)) {
+  _PageMarket(this.admin) : super(PageMarketController(SectionData(id:""))) {
     // _con = controller;
     _con2 = controller;
   }
 
   int point = 0;
-// زبطي الشكل يا دلال خليه توووب
-//   سطر مطعم صورة مطعم
-//   اسطر مطاعم
+
+  @override
+  void initState() {
+    super.initState();
+    _con2.getMarketsAdmin(admin);
+  }
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -63,15 +67,15 @@ class _PageMarket extends StateMVC<PageMarket> {
                     radius: 50,
                     backgroundColor: Colors.black12,
                     backgroundImage: NetworkImage(
-                      sectionData.image,
+                      admin.image,
                     ),
                   ),
-              ],),
+                ],),
               SizedBox(height: 10,),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(sectionData.nameAr,style: TextStyle(fontSize: 30,fontWeight: FontWeight.bold),),
+                  Text(admin.name,style: TextStyle(fontSize: 30,fontWeight: FontWeight.bold),),
                 ],
               ),
               SizedBox(height: 30,),
@@ -87,7 +91,7 @@ class _PageMarket extends StateMVC<PageMarket> {
                           height: 20,
                         ),
                         for(int i=0;i<_con2.listMarket.length;i=i+3)
-                        CardMarketWidget(_con2.listMarket[i], _con2),
+                          CardMarketWidget(_con2.listMarket[i], _con2),
                       ],
                     ),
                   ),
@@ -140,8 +144,8 @@ class _PageMarket extends StateMVC<PageMarket> {
             newMarket.descriptionAr="";
             newMarket.imageIcon="";
             newMarket.descriptionEn="";
-            newMarket.owners=[];
-            newMarket.idSection=sectionData.id;
+            newMarket.owners=[admin.id];
+            newMarket.idSection="";
             newMarket.timesTampClose=0;
             newMarket.timesTampOpen=0;
             newMarket.rating=0;
@@ -311,7 +315,7 @@ class _PageMarket extends StateMVC<PageMarket> {
 
   void navigetor(String app) async {
     bool result =
-        await Navigator.push(context, MaterialPageRoute(builder: (context) {
+    await Navigator.push(context, MaterialPageRoute(builder: (context) {
       //return Pagelist_detail();
     }));
   }

@@ -2,10 +2,12 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:ui';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:location/location.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
 import 'package:structurepublic/src/elements/DialogEditMarketWidget.dart';
@@ -14,6 +16,8 @@ import 'package:structurepublic/src/models/SectionData.dart';
 import 'package:structurepublic/src/repository/MarketRepository.dart' as repo;
 //import 'package:structurepublic/src/repository/ProductRepository.dart' as repo;
 
+import 'package:structurepublic/src/repository/ProductRepository.dart' as repo;
+import 'package:structurepublic/src/repository/SectionRepository.dart' as repo;
 import '../../generated/l10n.dart';
 import '../helpers/helper.dart';
 import '../models/user.dart';
@@ -79,6 +83,26 @@ class PageMarketController extends ControllerMVC {
     getMarkets();
   }
 
+  getMarketsAdmin(Userss admin) async {
+    setState(() {
+      listMarket.clear();
+    });
+
+    await repo.getMarketAdminNode(admin).then((value) {
+      //await repo.getMarket(this.sectionData).then((value) {
+      setState(() {
+        print("kkkkkkkkkkkkkkkkkkkkkkkk000000000000000000000000000" + admin.id);
+        listMarket.addAll(value);
+
+        // for(int i=0;i<listMarket.length;i++)
+        // {if(listMarket[i].idSection!=sectionData.id)
+        // {listMarket.removeAt(i);}
+        // }
+      });
+      print(listMarket.length.toString() +
+          "444444444444444444444444444444444444444444444");
+    }).catchError((e){print("ddoddodododooooddoododododdddddooooo"+e);});
+  }
 
   void selectTimeOpen() async {
     final TimeOfDay newTime = await showTimePicker(
@@ -161,7 +185,7 @@ class PageMarketController extends ControllerMVC {
     print("hidehidehidehidehide");
   }
 
-  Future editMarket(MarketData marketData) async {
+  Future editMarket(MarketData marketData) async {//notification true to add .... and section
     marketData.nameAr = nameAr.text;
     marketData.nameEn = nameEn.text;
     marketData.descriptionAr = descriptionAr.text;
@@ -194,31 +218,31 @@ class PageMarketController extends ControllerMVC {
   }
 
   Future getImage() async {
-    // File _image;
-    // final pickedFile = await ImagePicker.pickImage(source: ImageSource.gallery);
-    // setState(() async {
-    //   if (pickedFile != null) {
-    //     _image = await File(pickedFile.path);
-    //     imageUrl = await repo.upLoadImage(_image);
-    //   } else {
+    File _image;
+    final pickedFile = await ImagePicker.platform.pickImage(source: ImageSource.gallery);
+    setState(() async {
+      if (pickedFile != null) {
+        _image = await File(pickedFile.path);
+        imageUrl = await repo.upLoadImage(_image);
+      } else {
         print('No image selected.');
-    //   }
-    //   imageUrl;
-    // });
+      }
+      imageUrl;
+    });
   }
 
   Future getImageIcon() async {
     File _image;
-    // final pickedFile = await ImagePicker.pickImage(source: ImageSource.gallery);
-    // setState(() async {
-    //   if (pickedFile != null) {
-    //     _image = await File(pickedFile.path);
-    //     imageUrlIcon = await repo.upLoadImage(_image);
-    //   } else {
+    final pickedFile = await ImagePicker.platform.pickImage(source: ImageSource.gallery);
+    setState(() async {
+      if (pickedFile != null) {
+        _image = await File(pickedFile.path);
+        imageUrlIcon = await repo.upLoadImage(_image);
+      } else {
         print('No image selected.');
-    //   }
-    //   imageUrlIcon;
-    // });
+      }
+      imageUrlIcon;
+    });
   }
 
   showEditDialog(MarketData marketData, PageMarketController marketController) {
@@ -226,6 +250,87 @@ class PageMarketController extends ControllerMVC {
         context: context,
         builder: (BuildContext context) {
           return EditMarket(marketData, marketController);
+        });
+  }
+  showAddSectionDialog(MarketData marketData,PageMarketController pageMarketController) async{
+    List<SectionData> listSection=[];
+    await repo.getSections().then((value) {
+      setState((){
+        listSection.addAll(value);
+      });
+    });
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return Dialog(
+            backgroundColor: Colors.white70,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Container(
+              width: MediaQuery.of(context).size.width/4,
+              child: ListView(
+                children: [
+                  for(int i=0;i<listSection.length;i++)
+                    MaterialButton(
+                      onPressed:(){
+                        setState((){
+                          sectionData=listSection[i];
+                          Navigator.pop(context);
+                          showEditDialog(marketData, pageMarketController);
+                        });
+                      },
+                      child: Container(
+                        child: Center(
+                          child: MaterialButton(
+                            onPressed: () {
+                              setState((){
+                                sectionData=listSection[i];
+                                Navigator.pop(context);
+                                showEditDialog(marketData, pageMarketController);
+                              });
+                            },
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(80.0),
+                            ),
+                            padding: EdgeInsets.all(6.0),
+                            color: Colors.black12,
+                            child: Ink(
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  color: Colors.white70,
+                                  style: BorderStyle.solid,
+                                  width: 1.0,
+                                ),
+                                borderRadius: BorderRadius.circular(30.0),
+                                color: Colors.black12, //pink
+                              ),
+                              child: Container(
+                                constraints: BoxConstraints(
+                                    maxWidth: 100.0, minHeight: 40.0, maxHeight: 50),
+                                alignment: Alignment.center,
+                                child: Text(
+                                  listSection[i].nameAr,
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(color: Colors.white, fontSize: 20),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: CachedNetworkImageProvider(listSection[i].image),
+                            fit: BoxFit.cover,
+                            alignment: Alignment.topCenter,
+                          ),
+                        ),
+                      ),
+                    ),
+                ],
+              ),
+            ),
+          );
         });
   }
 }

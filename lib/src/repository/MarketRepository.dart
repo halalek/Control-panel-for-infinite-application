@@ -20,8 +20,6 @@ import '../models/setting.dart';
 ValueNotifier<Setting> setting = new ValueNotifier(new Setting());
 final navigatorKey = GlobalKey<NavigatorState>();
 
-
-
 Future<List<MarketData>> getMarketNode(SectionData sectionData) async {
   var url = Uri.parse('https://infinityserver2020.herokuapp.com/market/users/get/');
 
@@ -38,10 +36,28 @@ Future<List<MarketData>> getMarketNode(SectionData sectionData) async {
     List<dynamic> body = jsonDecode(res.body);
     List<MarketData> market=[];
     market=body.map((p) => MarketData.fromJson(p)).toList();
-    print("3333333333333333333333333333333333333333"+market.toString());
     return market;
   } else {
-    print("lolo");
+    List<MarketData> market=[];
+    return market;
+  }
+}
+
+Future<List<MarketData>> getMarketAdminNode(Userss myAdmin) async {
+  var url = Uri.parse('https://infinityserver2020.herokuapp.com/market/admin/get/');
+  http.Response res = await http.post(
+    url,
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+    },
+    body:jsonEncode({"owners":myAdmin.id}),
+  );
+  if (res.statusCode == 200) {
+    List<dynamic> body = jsonDecode(res.body);
+    List<MarketData> market=[];
+    market=body.map((p) => MarketData.fromJson(p)).toList();
+    return market;
+  } else {
     List<MarketData> market=[];
     return market;
   }
@@ -74,7 +90,6 @@ void postMarketNode(MarketData marketData,bool notification)async{
       "active":marketData.active
     }),
   );
-  print(response.body.toString());
 }
 
 
