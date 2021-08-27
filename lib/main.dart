@@ -6,6 +6,7 @@ import 'package:structurepublic/src/models/SectionData.dart';
 import 'package:structurepublic/src/pages/MarketPage.dart';
 import 'package:structurepublic/src/pages/SectionPage.dart';
 import 'package:structurepublic/src/pages/login.dart';
+import 'package:structurepublic/src/pages/mainchartspage.dart';
 import 'generated/l10n.dart';
 import 'route_generator.dart';
 import 'src/helpers/custom_trace.dart';
@@ -50,7 +51,8 @@ class _MyAppState extends State<MyApp> {
 
              //home: PageMarket(SectionData(id: "LBs5s8ooNgQbCfEIkD60")),
               //home:Loginmain(),
-              home:PageMain(),
+              home:MainchartsWidget(),
+              //home:PageMain(),
               //MainStateWidget(),
               // initialRoute: '/MainStateWidget',
               onGenerateRoute: RouteGenerator.generateRoute,

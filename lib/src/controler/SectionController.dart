@@ -8,6 +8,8 @@ import 'package:structurepublic/src/elements/DialogEditSectionWidget.dart';
 import 'package:structurepublic/src/models/SectionData.dart';
 import 'package:structurepublic/src/repository/SectionRepository.dart' as repo;
 
+import 'package:structurepublic/src/repository/repouser.dart'as repo;
+
 import '../../generated/l10n.dart';
 import '../helpers/helper.dart';
 import '../models/user.dart';
@@ -33,6 +35,7 @@ class PageMainController extends ControllerMVC {
   List<SectionData> list1 = [];
   List<int> list2 = [];
   List map=[];
+  List map2=[];
 
   PageMainController() {
     loader = Helper.overlayLoader(context);
@@ -63,12 +66,27 @@ class PageMainController extends ControllerMVC {
       });
 
     }
-    print("nnnnnnnnnnnn");
-    print(list1.length);
-    for(int i = 0; i < list1.length; i++){
 
-      map.add({"name section":list1[i].nameAr,"number market":list2[i]});
+    for(int i = 0; i < list1.length; i++){
+setState((){ map.add({"name section":list1[i].nameAr,"number market":list2[i]});});
+
     }
+
+    await repo.getAdmin().then((value) =>{
+      setState((){ map2.add({"name section":"أصحاب المتاجر","number market":value.length});})
+    });
+    await repo.getUser().then((value) =>{
+      setState((){ map2.add({"name section":"المستخدمين","number market":value.length});})
+
+    });
+    await repo.getworker().then((value) =>{
+      setState((){map2.add({"name section":"عمال التوصيل","number market":value.length});})
+
+    });
+
+    print("nnnnnnnnnnnn");
+    print(map2[0]["number market"].toString());
+
   }
 /* getSections3() async {
 
@@ -88,6 +106,7 @@ class PageMainController extends ControllerMVC {
   void initState() {
     super.initState();
     getSections();
+    getSections1();
   }
 
   getSections() async {

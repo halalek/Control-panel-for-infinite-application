@@ -24,13 +24,13 @@ class workController extends ControllerMVC{
     print(listwork.length) ;
   }
 Future<void> getdeleteworker(WorkerData user,List<String>idmarket) async {
-  await repo.deletworker(user, idmarket).then((value){
-  });
+  await repo.deletworker(user, idmarket).then((value){print("done worker deleye");
+  }).catchError((e){print(e);});
 
       }
   Future<void> addmarketworker(WorkerData user,List<String>idmarket) async {
-    await repo.addworker(user, idmarket).then((value){
-    });
+    await repo.addworker(user, idmarket).then((value){print("done add ma wo");
+    }).catchError((e){print(e);});
 
   }
 

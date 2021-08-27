@@ -14,6 +14,11 @@ import 'package:structurepublic/src/models/WorkerData.dart';
 import 'package:structurepublic/src/models/user.dart';
 import 'package:structurepublic/src/pages/pageallmarket.dart';
 
+import 'Pagemain.dart';
+import 'SectionPage.dart';
+import 'TestPage.dart';
+import 'mainchartspage.dart';
+
 class PageMarketbyworker extends StatefulWidget {
   //final SectionData sectionData;
 
@@ -47,11 +52,197 @@ class _PageMarketworker extends StateMVC<PageMarketbyworker> {
   Widget build(BuildContext context) {
     // TODO: implement build
     return Scaffold(
-      appBar: AppBar(
-        title: Text("محلات عامل توصيل",style: TextStyle(fontSize: 40),),
-        backgroundColor: Theme.of(context).primaryColor,
+      drawer: Drawer(
+        child: Container(
+          padding: EdgeInsets.all(10),
+          decoration: BoxDecoration(
+            color: Colors.blue[900],
+          ),
+          child: ListView(
+            children: [
+              SizedBox(
+                height: 10,
+              ),
+              Container(
+                padding: EdgeInsets.only(top: 5, bottom: 5),
+                color: Colors.black12,
+                child: MaterialButton(
+                  onPressed: () {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => MainchartsWidget(),
+                      ),
+                    );
+                  },
+                  minWidth: MediaQuery.of(context).size.width / 4.5,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.home,
+                        size: 30,
+                        color: Colors.white,
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Text(
+                        "الصفحة الرئيسية",
+                        style: TextStyle(
+                          fontSize: 20,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 12.5,
+              ),
+              Divider(
+                color: Colors.white,
+              ),
+              SizedBox(
+                height: 12.5,
+              ),
+              Container(
+                padding: EdgeInsets.only(top: 5, bottom: 5),
+                color: Colors.black12,
+                child: MaterialButton(
+                  minWidth: MediaQuery.of(context).size.width / 4.5,
+                  //color: Colors.black12,
+                  onPressed: () {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => PageMain(),
+                      ),
+                    );
+                  },
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.storefront,
+                        size: 30,
+                        color: Colors.white,
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Text(
+                        "إدارة المتاجر",
+                        style: TextStyle(
+                          fontSize: 20,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 12.5,
+              ),
+              Divider(
+                color: Colors.white,
+              ),
+              SizedBox(
+                height: 12.5,
+              ),
+              Container(
+                padding: EdgeInsets.only(top: 5, bottom: 5),
+                color: Colors.black12,
+                child: MaterialButton(
+                  minWidth: MediaQuery.of(context).size.width / 4.5,
+                  onPressed: () {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => pagemain(),
+                      ),
+                    );
+                  },
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.face,
+                        size: 30,
+                        color: Colors.white,
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Text(
+                        "قائمة المستخدمين",
+                        style: TextStyle(
+                          fontSize: 20,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 12.5,
+              ),
+              Divider(
+                color: Colors.white,
+              ),
+              SizedBox(
+                height: 12.5,
+              ),
+              Container(
+                padding: EdgeInsets.only(top: 5, bottom: 5),
+                color: Colors.black12,
+                child: MaterialButton(
+                  minWidth: MediaQuery.of(context).size.width / 4.5,
+                  onPressed: () {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => TestPage(),
+                      ),
+                    );
+                  },
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.book,
+                        size: 30,
+                        color: Colors.white,
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Text(
+                        "التقارير ",
+                        style: TextStyle(
+                          fontSize: 20,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Container(
+                padding: EdgeInsets.all(5),
+                child: Image.asset("assets/img/photo1.png"),
+              ),
+              //SizedBox(height: 10,),
+            ],
+          ),
+        ),
       ),
-
 
       floatingActionButton: FloatingActionButton(
           child:Icon(Icons.add),
@@ -72,7 +263,7 @@ class _PageMarketworker extends StateMVC<PageMarketbyworker> {
           color: Colors.grey[100],
           child: ListView(
             children: [
-              Row(
+              Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -107,26 +298,46 @@ class _PageMarketworker extends StateMVC<PageMarketbyworker> {
                         Divider(
                           color: Colors.black,
                         ),
-                        SizedBox(height: 10,),
                         SizedBox(
-                          height: 20,
+                          height: 30,
                         ),
-                      if(_con.listmarketbyworker.length>0)
-                          CardMarketbyworkerWidget(_con.listmarketbyworker[0]),
-                        for (int i = 2; i < _con.listmarketbyworker.length; i = i + 3)
-                         CardMarketbyworkerWidget(_con.listmarketbyworker[i]),
                       ],
                     ),
                   ),
                   Container(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        SizedBox(
-                          height: 50,
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            SizedBox(
+                              height: 50,
+                            ),
+                            for (int i = 1; i < _con.listmarketbyworker.length; i = i + 3)
+                              CardMarketbyworkerWidget(_con.listmarketbyworker[i]),
+                          ],
                         ),
-                       for (int i = 1; i < _con.listmarketbyworker.length; i = i + 3)
-                        CardMarketbyworkerWidget(_con.listmarketbyworker[i]),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            SizedBox(
+                              height: 50,
+                            ),
+                            for (int i = 0; i < _con.listmarketbyworker.length; i = i + 3)
+                              CardMarketbyworkerWidget(_con.listmarketbyworker[i]),
+                          ],
+                        ),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            SizedBox(
+                              height: 50,
+                            ),
+                            for (int i = 2; i < _con.listmarketbyworker.length; i = i + 3)
+                              CardMarketbyworkerWidget(_con.listmarketbyworker[i]),
+                          ],
+                        ),
                       ],
                     ),
                   ),

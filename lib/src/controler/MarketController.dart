@@ -254,11 +254,11 @@ class PageMarketController extends ControllerMVC {
   }
   showAddSectionDialog(MarketData marketData,PageMarketController pageMarketController) async{
     List<SectionData> listSection=[];
-    await repo.getSections().then((value) {
+    await repo.getSectionNode().then((value) {
       setState((){
         listSection.addAll(value);
       });
-    });
+    }).catchError((e){print(e);});
     await showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -281,6 +281,8 @@ class PageMarketController extends ControllerMVC {
                         });
                       },
                       child: Container(
+                        padding: EdgeInsets.only(top: 10,bottom: 10),
+                        height: MediaQuery.of(context).size.width/4,
                         child: Center(
                           child: MaterialButton(
                             onPressed: () {

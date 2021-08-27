@@ -19,7 +19,7 @@ import '../models/setting.dart';
 ValueNotifier<Setting> setting = new ValueNotifier(new Setting());
 final navigatorKey = GlobalKey<NavigatorState>();
 String tokenn;
-final Userss userss=new Userss();
+final Userss userss = new Userss();
 //LocationData locationData;
 
 /*Future<Userss> loginSettings(String email, String password) async {
@@ -41,7 +41,6 @@ final Userss userss=new Userss();
   }
 }*/
 
-
 /*ture<Userss>  signupSettings(String email, String password,String name) async {
   var result = await FirebaseAuth.instance
       .createUserWithEmailAndPassword(email: email, password: password);
@@ -56,109 +55,85 @@ final Userss userss=new Userss();
     return null;
   }
 */
-Future<void> updateUser(Userss user ) async {
-  print("Llllllllllllllllllllllllllllllllllllllllllllllllllllll");
-  print(user.name);
- //wait addtoken();
-  await FirebaseFirestore.instance
-      .collection("users").doc(user.id).update(
-      {"name":user.name,
-        "email":user.email,
-        "phone":user.phone,
-        "longe":user.long,
-        "lat":user.lat,
-        "image":user.image,
-        "token":tokenn,
-      }
-  )
-      .then((value) async {////////////////////////////////////
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    //preferences.clear();
-    preferences.setString('user', json.encode(user));
-    print(json.encode(user) );
-    print("kkkkkkkkkkkkkkkkkkk");
-    return value;
-  }
-  )
-      .catchError((e) {});
-
-  return  await getUser();
-
-}
-Future<void> deletworker(WorkerData user ,List<String> idmarket) async {
-  print("Llllllllllllllllllllllllllllllllllllllllllllllllllllll");
-  print(user.name);
-
-  await FirebaseFirestore.instance
-      .collection("worker").doc(user.id).update(
-      {
-        "idMarket":idmarket ,
-      }
-  )
-      .then((value) async {////////////////////////////////////
-
-    print("kkkkkkkkkkkkkkkkkkk");
-
-  }
-  )
-      .catchError((e) {});
-
-//  return  await getUser();
-
-}
-Future<void> addworker(WorkerData user ,List<String> idmarket) async {
-  print("Llllllllllllllllllllllllllllllllllllllllllllllllllllll");
-  print(user.name);
-
-  await FirebaseFirestore.instance
-      .collection("worker").doc(user.id).update(
-      {
-        "idMarket":idmarket ,
-      }
-  )
-      .then((value) async {////////////////////////////////////
-
-    print("kkkkkkkkkkkkkkkkkkk");
-
-  }
-  )
-      .catchError((e) {});
-
-//  return  await getUser();
-
-}
-Future<void> updateworker(WorkerData user ) async {
+Future<void> updateUser(Userss user) async {
   print("Llllllllllllllllllllllllllllllllllllllllllllllllllllll");
   print(user.name);
   //wait addtoken();
-  await FirebaseFirestore.instance
-      .collection("worker").doc(user.id).update(
-      {"name":user.name,
-        "email":user.email,
-        "phone":user.phone,
-        "longe":user.long,
-        "lat":user.lat,
-        "image":user.image,
-        "token":tokenn,
-      }
-  )
-      .then((value) async {////////////////////////////////////
+  await FirebaseFirestore.instance.collection("users").doc(user.id).update({
+    "name": user.name,
+    "email": user.email,
+    "phone": user.phone,
+    "longe": user.long,
+    "lat": user.lat,
+    "image": user.image,
+    "token": tokenn,
+  }).then((value) async {
+    ////////////////////////////////////
     SharedPreferences preferences = await SharedPreferences.getInstance();
     //preferences.clear();
     preferences.setString('user', json.encode(user));
-    print(json.encode(user) );
+    print(json.encode(user));
     print("kkkkkkkkkkkkkkkkkkk");
     return value;
-  }
-  )
-      .catchError((e) {});
+  }).catchError((e) {});
 
-  return  await getUser();
-
+  return await getUser();
 }
 
+Future<void> deletworker(WorkerData user, List<String> idmarket) async {
+  print("Llllllllllllllllllllllllllllllllllllllllllllllllllllll");
+  print(user.name);
 
+  await FirebaseFirestore.instance.collection("worker").doc(user.id).update({
+    "id_market": idmarket,
+  }).then((value) async {
+    ////////////////////////////////////
 
+    print("kkkkkkkkkkkkkkkkkkk");
+  }).catchError((e) {});
+
+//  return  await getUser();
+}
+
+Future<void> addworker(WorkerData user, List<String> idmarket) async {
+  print("Llllllllllllllllllllllllllllllllllllllllllllllllllllll");
+  print(user.name);
+
+  await FirebaseFirestore.instance.collection("worker").doc(user.id).update({
+    "id_market": idmarket,
+  }).then((value) async {
+    ////////////////////////////////////
+
+    print("kkkkkkkkkkkkkkkkkkk");
+  }).catchError((e) {});
+
+//  return  await getUser();
+}
+
+Future<void> updateworker(WorkerData user) async {
+  print("Llllllllllllllllllllllllllllllllllllllllllllllllllllll");
+  print(user.name);
+  //wait addtoken();
+  await FirebaseFirestore.instance.collection("worker").doc(user.id).update({
+    "name": user.name,
+    "email": user.email,
+    "phone": user.phone,
+    "longe": user.long,
+    "lat": user.lat,
+    "image": user.image,
+    "token": tokenn,
+  }).then((value) async {
+    ////////////////////////////////////
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    //preferences.clear();
+    preferences.setString('user', json.encode(user));
+    print(json.encode(user));
+    print("kkkkkkkkkkkkkkkkkkk");
+    return value;
+  }).catchError((e) {});
+
+  return await getUser();
+}
 
 /*Future<Userss> addUser() async {
   await addtoken();
@@ -229,60 +204,56 @@ Future<void> deleteWorker(String userssid) async {
 //SharedPref sharedPref=SharedPref();
 
 Future<List<Userss>> getUser() async {
- print("mmmmm") ;
- List<Userss> users=[];
-    await FirebaseFirestore.instance
-        .collection("users").where("role",isEqualTo:"users")
-        .get()
-        .then((value) {
-          print(value.docs.length) ;
-    for(int i=0 ;i<value.docs.length ;i++) {
-      print("ghgh") ;
-      users.add(Userss.fromJson(value.docs[i].data())) ;
-      print("ghgh") ;
-      print(users.length);
-    }
-    }
-    ).catchError((e){}) ;
-    print("kkkkkkkkkkkkkkkk") ;
-    print(users.length) ;
-    return users;
-  }
-Future<List<Userss>> getAdmin() async {
- //wait addtokenuser();
-  List<Userss> users=[];
+  print("mmmmm");
+  List<Userss> users = [];
   await FirebaseFirestore.instance
-      .collection("users").where("role",isEqualTo:"admin")
+      .collection("users")
+      .where("role", isEqualTo: "users")
       .get()
       .then((value) {
-    for(int i=0 ;i<value.docs.length ;i++)
+    print(value.docs.length);
+    for (int i = 0; i < value.docs.length; i++) {
+      print("ghgh");
       users.add(Userss.fromJson(value.docs[i].data()));
-  }
-  );
+      print("ghgh");
+      print(users.length);
+    }
+  }).catchError((e) {});
+  print("kkkkkkkkkkkkkkkk");
+  print(users.length);
+  return users;
+}
+
+Future<List<Userss>> getAdmin() async {
+  //wait addtokenuser();
+  List<Userss> users = [];
+  await FirebaseFirestore.instance
+      .collection("users")
+      .where("role", isEqualTo: "admin")
+      .get()
+      .then((value) {
+    for (int i = 0; i < value.docs.length; i++)
+      users.add(Userss.fromJson(value.docs[i].data()));
+  });
   return users;
 }
 
 Future<List<WorkerData>> getworker() async {
- //wait addtokenuser();
-  List<WorkerData> Worker=[];
-  print("mnnnnnnnnn") ;
-  await FirebaseFirestore.instance
-      .collection("worker").get().then((value) {
+  //wait addtokenuser();
+  List<WorkerData> Worker = [];
+  print("mnnnnnnnnn");
+  await FirebaseFirestore.instance.collection("worker").get().then((value) {
     print(value.docs.length);
     for (int i = 0; i < value.docs.length; i++) {
       Worker.add(WorkerData.fromJson(value.docs[i].data()));
       print("male1111");
     }
-  }
-  ).catchError((e){}) ;
-  print("male") ;
-  print(Worker.length) ;
-  print("male") ;
-  return Worker  ;
+  }).catchError((e) {});
+  print("male");
+  print(Worker.length);
+  print("male");
+  return Worker;
 }
-
-
-
 
 //Userss users;
 // if(user==null)
@@ -307,7 +278,6 @@ Future<List<WorkerData>> getworker() async {
 //
 // }
 
-
 /*
 
 Future<Userss> userfirebase() async
@@ -319,6 +289,3 @@ Future<Userss> userfirebase() async
   return b;
 
 }*/
-
-
-

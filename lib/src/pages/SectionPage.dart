@@ -11,6 +11,7 @@ import 'package:structurepublic/src/models/SectionData.dart';
 import 'package:structurepublic/src/pages/TestPage.dart';
 
 import 'Pagemain.dart';
+import 'mainchartspage.dart';
 
 class PageMain extends StatefulWidget {
   @override
@@ -63,7 +64,7 @@ class _PageMain extends StateMVC<PageMain> {
             newSetion.id = "";
             newSetion.nameAr = "";
             newSetion.nameEn = "";
-            await _con.showEditDialog(newSetion,_con);
+            await _con.showEditDialog(newSetion, _con);
             //_con.listProduct.add(newProductData);
           });
         },
@@ -74,7 +75,7 @@ class _PageMain extends StateMVC<PageMain> {
           decoration: BoxDecoration(
             color: Colors.blue[900],
           ),
-          child: Column(
+          child: ListView(
             children: [
               SizedBox(
                 height: 10,
@@ -83,7 +84,14 @@ class _PageMain extends StateMVC<PageMain> {
                 padding: EdgeInsets.only(top: 5, bottom: 5),
                 color: Colors.black12,
                 child: MaterialButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => MainchartsWidget(),
+                      ),
+                    );
+                  },
                   minWidth: MediaQuery.of(context).size.width / 4.5,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,

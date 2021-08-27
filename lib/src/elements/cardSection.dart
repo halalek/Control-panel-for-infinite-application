@@ -24,8 +24,8 @@ class _CardWidgetState extends State<CardWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height,
-      width: MediaQuery.of(context).size.width,
+      // height: MediaQuery.of(context).size.height,
+      // width: MediaQuery.of(context).size.width,
       child: Card(
         semanticContainer: true,
         clipBehavior: Clip.antiAliasWithSaveLayer,

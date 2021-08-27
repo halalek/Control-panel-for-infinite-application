@@ -26,7 +26,7 @@ class CardallMarketWidget extends StatefulWidget {
 class _CardallMarketWidgetState extends State<CardallMarketWidget> {
   _CardallMarketWidgetState(this.marketData, this.user);
 
-  workController _con=new workController();
+  workController _con = new workController();
 
   final MarketData marketData;
   final WorkerData user;
@@ -104,16 +104,10 @@ class _CardallMarketWidgetState extends State<CardallMarketWidget> {
                                 icon: Icon(Icons.add, size: 25),
                                 color: Colors.indigo,
                                 onPressed: () {
-                                  List<String> t = [];
-                                  for (int i = 0;
-                                      i < user.idMarket.length;
-                                      i++) {
-                                    if (user.idMarket[i] != null) {
-                                      if (user.idMarket[i] == marketData.id) {
-                                        t.add(user.idMarket[i]);
-                                      }
-                                    }
-                                  }
+                                  List<String> t = user.idMarket;
+
+                                  t.add(marketData.id);
+
                                   _con.getdeleteworker(user, t);
                                 })),
                         onTap: () {

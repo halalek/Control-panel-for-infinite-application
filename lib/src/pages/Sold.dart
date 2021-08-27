@@ -19,7 +19,10 @@ import 'package:structurepublic/src/models/user.dart';
 import 'package:structurepublic/src/pages/DemandMarketPage.dart';
 
 import 'CategorizePage.dart';
+import 'Pagemain.dart';
 import 'SectionPage.dart';
+import 'TestPage.dart';
+import 'mainchartspage.dart';
 
 class Sold extends StatefulWidget {
 
@@ -77,7 +80,7 @@ class _Sold extends StateMVC<Sold> {
           decoration: BoxDecoration(
             color: Colors.blue[900],
           ),
-          child: Column(
+          child: ListView(
             children: [
               SizedBox(
                 height: 10,
@@ -86,16 +89,26 @@ class _Sold extends StateMVC<Sold> {
                 padding: EdgeInsets.only(top: 5, bottom: 5),
                 color: Colors.black12,
                 child: MaterialButton(
-                  onPressed: () {},
-                  minWidth: MediaQuery
-                      .of(context)
-                      .size
-                      .width / 4.5,
+                  onPressed: () {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => MainchartsWidget(),
+                      ),
+                    );
+                  },
+                  minWidth: MediaQuery.of(context).size.width / 4.5,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(Icons.home, size: 30, color: Colors.white,),
-                      SizedBox(height: 10,),
+                      Icon(
+                        Icons.home,
+                        size: 30,
+                        color: Colors.white,
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
                       Text(
                         "الصفحة الرئيسية",
                         style: TextStyle(
@@ -120,10 +133,7 @@ class _Sold extends StateMVC<Sold> {
                 padding: EdgeInsets.only(top: 5, bottom: 5),
                 color: Colors.black12,
                 child: MaterialButton(
-                  minWidth: MediaQuery
-                      .of(context)
-                      .size
-                      .width / 4.5,
+                  minWidth: MediaQuery.of(context).size.width / 4.5,
                   //color: Colors.black12,
                   onPressed: () {
                     Navigator.pushReplacement(
@@ -136,9 +146,14 @@ class _Sold extends StateMVC<Sold> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(Icons.storefront, size: 30, color: Colors.white
-                        ,),
-                      SizedBox(height: 10,),
+                      Icon(
+                        Icons.storefront,
+                        size: 30,
+                        color: Colors.white,
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
                       Text(
                         "إدارة المتاجر",
                         style: TextStyle(
@@ -163,16 +178,26 @@ class _Sold extends StateMVC<Sold> {
                 padding: EdgeInsets.only(top: 5, bottom: 5),
                 color: Colors.black12,
                 child: MaterialButton(
-                  minWidth: MediaQuery
-                      .of(context)
-                      .size
-                      .width / 4.5,
-                  onPressed: () {},
+                  minWidth: MediaQuery.of(context).size.width / 4.5,
+                  onPressed: () {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => pagemain(),
+                      ),
+                    );
+                  },
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(Icons.face, size: 30, color: Colors.white,),
-                      SizedBox(height: 10,),
+                      Icon(
+                        Icons.face,
+                        size: 30,
+                        color: Colors.white,
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
                       Text(
                         "قائمة المستخدمين",
                         style: TextStyle(
@@ -182,7 +207,8 @@ class _Sold extends StateMVC<Sold> {
                       ),
                     ],
                   ),
-                ),),
+                ),
+              ),
               SizedBox(
                 height: 12.5,
               ),
@@ -196,16 +222,26 @@ class _Sold extends StateMVC<Sold> {
                 padding: EdgeInsets.only(top: 5, bottom: 5),
                 color: Colors.black12,
                 child: MaterialButton(
-                  minWidth: MediaQuery
-                      .of(context)
-                      .size
-                      .width / 4.5,
-                  onPressed: () {},
+                  minWidth: MediaQuery.of(context).size.width / 4.5,
+                  onPressed: () {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => TestPage(),
+                      ),
+                    );
+                  },
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(Icons.book, size: 30, color: Colors.white,),
-                      SizedBox(height: 10,),
+                      Icon(
+                        Icons.book,
+                        size: 30,
+                        color: Colors.white,
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
                       Text(
                         "التقارير ",
                         style: TextStyle(
@@ -217,10 +253,12 @@ class _Sold extends StateMVC<Sold> {
                   ),
                 ),
               ),
-              SizedBox(height: 10,),
+              SizedBox(
+                height: 10,
+              ),
               Container(
                 padding: EdgeInsets.all(5),
-                child:  Image.asset("assets/img/photo1.png"),
+                child: Image.asset("assets/img/photo1.png"),
               ),
               //SizedBox(height: 10,),
             ],

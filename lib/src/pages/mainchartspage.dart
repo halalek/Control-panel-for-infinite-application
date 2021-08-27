@@ -1,122 +1,51 @@
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
-import 'package:splashscreen/splashscreen.dart';
-import 'dart:async';
-import 'package:carousel_slider/carousel_slider.dart';
-import 'package:http/http.dart';
-import 'package:structurepublic/src/controler/CategorizeController.dart';
-import 'package:structurepublic/src/elements/CategorizeCardWidget.dart';
-import 'package:structurepublic/src/models/CategorizeData.dart';
-import 'package:structurepublic/src/models/MarketData.dart';
-import 'package:structurepublic/src/models/user.dart';
-import 'package:structurepublic/src/pages/DemandMarketPage.dart';
-import 'package:structurepublic/src/pages/Sold.dart';
+import 'package:structurepublic/src/controler/SectionController.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
+import 'package:syncfusion_flutter_charts/sparkcharts.dart';
+import 'package:characters/characters.dart';
+import 'package:pie_chart/pie_chart.dart';
 
 import 'Pagemain.dart';
 import 'SectionPage.dart';
 import 'TestPage.dart';
-import 'mainchartspage.dart';
-// ignore: must_be_immutable
-class Categorize extends StatefulWidget {
-  final MarketData marketData;
-  Categorize(this.marketData);
+//import 'package:charts_flutter/flutter.dart' as charts;
 
-  int c = 0;
-
+class MainchartsWidget extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() {
-    // TODO: implement createState
-    return _Categorize(this.marketData);
-  }
+  _MainchartsWidgetState createState() => _MainchartsWidgetState();
 }
 
-class _Categorize extends StateMVC<Categorize> {
-  final MarketData marketData;
-  CategorizeData categorizeData;
+class _MainchartsWidgetState extends StateMVC<MainchartsWidget> {
+  PageMainController _con;
 
-  PageCategorizeController _categorizeController;
-
-  _Categorize(this.marketData)
-      : super(
-          PageCategorizeController(marketData),
-        ) {
-    _categorizeController = controller;
-    //_con= _categorizeDetail._get();
-
-    //_con=controller;
+  _MainchartsWidgetState() : super(PageMainController()) {
+    _con = controller;
   }
-
-  bool select = false;
-  int point = 3;
-  int pointt = 0;
-  int z = 0;
-
-  // _ProductDetail(this.pointt);
-  Decoration _decoration1 = BoxDecoration(
-    color: Colors.black12,
-  );
-  Decoration _decoration = BoxDecoration(
-    color: Colors.white24,
-    border: Border(
-      bottom: BorderSide(width: 1),
-    ),
-  );
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-    return Scaffold(
-      body: ListView(shrinkWrap: true, children: [
-        Container(
-            height: MediaQuery.of(context).size.height,
-            child: Column(children: [
-              Container(
-                height: 130,
-                width: MediaQuery.of(context).size.width,
-                child: TextField(
-                  decoration: InputDecoration(
-                    hintText: "البحث ....",
-                    icon: Icon(Icons.search),
-                  ),
-                ),
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: CachedNetworkImageProvider(marketData.image),
-                    fit: BoxFit.cover,
-                    alignment: Alignment.topCenter,
-                  ),
-                ),
-              ),
-              Row(
-                //demand and sold....................
-                children: [
+    List<_SalesData> data = [
+      for (int i = 0; i < _con.map.length; i++)
+        _SalesData(_con.map[i]["name section"], _con.map[i]["number market"]),
+    ];
+    Map<String, double> dataMap;
+    if (_con.map2.isNotEmpty) {
+      String g1 = _con.map2[0]["name section"];
+      String g2 = _con.map2[1]["name section"];
+      String g3 = _con.map2[2]["name section"];
+      double g11 = _con.map2[0]["number market"];
+      double g22 = _con.map2[1]["number market"];
+      double g33 = _con.map2[2]["number market"];
 
-                ],
-              ),
-              Expanded(
-                  child: GridView.count(
-                    primary: false,
-                    padding: const EdgeInsets.all(1.5),
-                    crossAxisCount: 2,
-                    childAspectRatio: 0.6,
-                    mainAxisSpacing: 1.0,
-                    crossAxisSpacing: 1.0,
-                    shrinkWrap: true,
-                    scrollDirection: Axis.horizontal,
-                    children: List.generate(
-                      _categorizeController.listCategorize.length,
-                          (index) => CardCategorizeWidget(
-                          _categorizeController.listCategorize[index],
-                          _categorizeController,
-                          marketData),
-                    ),
-                  )),
-            ])),
-      ]),
+      dataMap = {
+        g1.toString(): g11,
+        g2.toString(): g22,
+        g3.toString(): g33,
+      };
+    }
+
+    return Scaffold(
         drawer: Drawer(
           child: Container(
             padding: EdgeInsets.all(10),
@@ -308,59 +237,39 @@ class _Categorize extends StateMVC<Categorize> {
             ),
           ),
         ),
-      floatingActionButton:Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          SizedBox(height: 10,),
-          FloatingActionButton(
-            backgroundColor: Colors.blue[900],
-            foregroundColor: Colors.white,
-            child: Icon(Icons.shopping_cart),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => MarketDemand(marketData),
-                ),
-              );
-            },
-          ),
-          SizedBox(height: 10,),
-          FloatingActionButton(
-            backgroundColor: Colors.blue[900],
-            foregroundColor: Colors.white,
-            child: Icon(Icons.style),
-            onPressed: () {
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => Sold(marketData),
-                ),
-              );
-            },
-          ),
-          SizedBox(height: 10,),
-          FloatingActionButton(
-            backgroundColor: Colors.blue[900],
-            foregroundColor: Colors.white,
-            child: Icon(Icons.add),
-            onPressed: () {
-              setState(() async {
-                CategorizeData newcategorize = new CategorizeData();
-                newcategorize.hide = false;
-                newcategorize.image = "";
-                newcategorize.id = "";
-                newcategorize.nameAr = "";
-                newcategorize.nameEn = "";
-                await _categorizeController.showEditDialog(
-                    marketData, newcategorize, _categorizeController);
-                //_con.listProduct.add(newProductData);
-              });
-            },
-          ),
-          SizedBox(height: 10,),
-        ],
-      )
-    );
+        body:((_con.map2.isNotEmpty)&&(_con.map.isNotEmpty))? ListView(children: [
+      Column(children: [
+        //Initialize the chart widget
+        SfCartesianChart(
+            primaryXAxis: CategoryAxis(),
+            // Chart title
+            title: ChartTitle(text: 'Half yearly sales analysis'),
+            // Enable legend
+            legend: Legend(isVisible: true),
+            // Enable tooltip
+            tooltipBehavior: TooltipBehavior(enable: true),
+            series: <ChartSeries<_SalesData, String>>[
+              LineSeries<_SalesData, String>(
+                  dataSource: data,
+                  xValueMapper: (_SalesData sales, _) => sales.year,
+                  yValueMapper: (_SalesData sales, _) => sales.sales,
+                  name: 'المحلات',
+                  // Enable data label
+                  dataLabelSettings: DataLabelSettings(isVisible: true))
+            ]),
+        Container(
+          height: 450,
+          width: 450,
+          child: PieChart(dataMap: dataMap),
+        )
+      ])
+    ]):Container());
   }
+}
+
+class _SalesData {
+  _SalesData(this.year, this.sales);
+
+  final String year;
+  final double sales;
 }

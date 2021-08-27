@@ -4,7 +4,9 @@ import 'package:mvc_pattern/mvc_pattern.dart';
 import 'package:structurepublic/src/controler/TestController.dart';
 import 'package:structurepublic/src/elements/CircularLoadingWidget.dart';
 
+import 'Pagemain.dart';
 import 'SectionPage.dart';
+import 'mainchartspage.dart';
 
 class TestPage extends StatefulWidget {
   @override
@@ -344,7 +346,7 @@ class _TestPage extends StateMVC<TestPage> {
           decoration: BoxDecoration(
             color: Colors.blue[900],
           ),
-          child: Column(
+          child: ListView(
             children: [
               SizedBox(
                 height: 10,
@@ -353,7 +355,14 @@ class _TestPage extends StateMVC<TestPage> {
                 padding: EdgeInsets.only(top: 5, bottom: 5),
                 color: Colors.black12,
                 child: MaterialButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => MainchartsWidget(),
+                      ),
+                    );
+                  },
                   minWidth: MediaQuery.of(context).size.width / 4.5,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -388,7 +397,7 @@ class _TestPage extends StateMVC<TestPage> {
               ),
               Container(
                 padding: EdgeInsets.only(top: 5, bottom: 5),
-                color: Colors.black38,
+                color: Colors.black12,
                 child: MaterialButton(
                   minWidth: MediaQuery.of(context).size.width / 4.5,
                   //color: Colors.black12,
@@ -436,7 +445,14 @@ class _TestPage extends StateMVC<TestPage> {
                 color: Colors.black12,
                 child: MaterialButton(
                   minWidth: MediaQuery.of(context).size.width / 4.5,
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => pagemain(),
+                      ),
+                    );
+                  },
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [

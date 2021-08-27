@@ -11,7 +11,10 @@ import 'package:structurepublic/src/models/MarketData.dart';
 import 'package:structurepublic/src/models/SectionData.dart';
 import 'package:structurepublic/src/models/user.dart';
 
+import 'Pagemain.dart';
 import 'SectionPage.dart';
+import 'TestPage.dart';
+import 'mainchartspage.dart';
 
 class PageAdminMarket extends StatefulWidget {
   //final SectionData sectionData;
@@ -130,9 +133,9 @@ class _PageAdminMarket extends StateMVC<PageAdminMarket> {
         backgroundColor: Colors.blue[900],
         foregroundColor: Colors.white,
         child: Icon(Icons.add),
-        onPressed: () {
-          setState(() async {
-            MarketData newMarket = new MarketData();
+        onPressed: () async{
+          MarketData newMarket = new MarketData();
+          setState(() {
             newMarket.hide = false;
             newMarket.image = "";
             newMarket.id = Uuid().generateV4();
@@ -149,10 +152,10 @@ class _PageAdminMarket extends StateMVC<PageAdminMarket> {
             newMarket.timesTampClose=0;
             newMarket.timesTampOpen=0;
             newMarket.rating=0;
-            await _con2.showAddSectionDialog(newMarket, _con2);
             //await _con2.showEditDialog(newMarket, _con2);
             //_con.listProduct.add(newProductData);
           });
+          await _con2.showAddSectionDialog(newMarket, _con2);
         },
       ),
       drawer: Drawer(
@@ -161,7 +164,7 @@ class _PageAdminMarket extends StateMVC<PageAdminMarket> {
           decoration: BoxDecoration(
             color: Colors.blue[900],
           ),
-          child: Column(
+          child: ListView(
             children: [
               SizedBox(
                 height: 10,
@@ -170,16 +173,26 @@ class _PageAdminMarket extends StateMVC<PageAdminMarket> {
                 padding: EdgeInsets.only(top: 5, bottom: 5),
                 color: Colors.black12,
                 child: MaterialButton(
-                  onPressed: () {},
-                  minWidth: MediaQuery
-                      .of(context)
-                      .size
-                      .width / 4.5,
+                  onPressed: () {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => MainchartsWidget(),
+                      ),
+                    );
+                  },
+                  minWidth: MediaQuery.of(context).size.width / 4.5,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(Icons.home, size: 30, color: Colors.white,),
-                      SizedBox(height: 10,),
+                      Icon(
+                        Icons.home,
+                        size: 30,
+                        color: Colors.white,
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
                       Text(
                         "الصفحة الرئيسية",
                         style: TextStyle(
@@ -204,10 +217,7 @@ class _PageAdminMarket extends StateMVC<PageAdminMarket> {
                 padding: EdgeInsets.only(top: 5, bottom: 5),
                 color: Colors.black12,
                 child: MaterialButton(
-                  minWidth: MediaQuery
-                      .of(context)
-                      .size
-                      .width / 4.5,
+                  minWidth: MediaQuery.of(context).size.width / 4.5,
                   //color: Colors.black12,
                   onPressed: () {
                     Navigator.pushReplacement(
@@ -220,9 +230,14 @@ class _PageAdminMarket extends StateMVC<PageAdminMarket> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(Icons.storefront, size: 30, color: Colors.white
-                        ,),
-                      SizedBox(height: 10,),
+                      Icon(
+                        Icons.storefront,
+                        size: 30,
+                        color: Colors.white,
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
                       Text(
                         "إدارة المتاجر",
                         style: TextStyle(
@@ -247,16 +262,26 @@ class _PageAdminMarket extends StateMVC<PageAdminMarket> {
                 padding: EdgeInsets.only(top: 5, bottom: 5),
                 color: Colors.black12,
                 child: MaterialButton(
-                  minWidth: MediaQuery
-                      .of(context)
-                      .size
-                      .width / 4.5,
-                  onPressed: () {},
+                  minWidth: MediaQuery.of(context).size.width / 4.5,
+                  onPressed: () {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => pagemain(),
+                      ),
+                    );
+                  },
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(Icons.face, size: 30, color: Colors.white,),
-                      SizedBox(height: 10,),
+                      Icon(
+                        Icons.face,
+                        size: 30,
+                        color: Colors.white,
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
                       Text(
                         "قائمة المستخدمين",
                         style: TextStyle(
@@ -266,7 +291,8 @@ class _PageAdminMarket extends StateMVC<PageAdminMarket> {
                       ),
                     ],
                   ),
-                ),),
+                ),
+              ),
               SizedBox(
                 height: 12.5,
               ),
@@ -280,16 +306,26 @@ class _PageAdminMarket extends StateMVC<PageAdminMarket> {
                 padding: EdgeInsets.only(top: 5, bottom: 5),
                 color: Colors.black12,
                 child: MaterialButton(
-                  minWidth: MediaQuery
-                      .of(context)
-                      .size
-                      .width / 4.5,
-                  onPressed: () {},
+                  minWidth: MediaQuery.of(context).size.width / 4.5,
+                  onPressed: () {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => TestPage(),
+                      ),
+                    );
+                  },
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(Icons.book, size: 30, color: Colors.white,),
-                      SizedBox(height: 10,),
+                      Icon(
+                        Icons.book,
+                        size: 30,
+                        color: Colors.white,
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
                       Text(
                         "التقارير ",
                         style: TextStyle(
@@ -301,10 +337,12 @@ class _PageAdminMarket extends StateMVC<PageAdminMarket> {
                   ),
                 ),
               ),
-              SizedBox(height: 10,),
+              SizedBox(
+                height: 10,
+              ),
               Container(
                 padding: EdgeInsets.all(5),
-                child:  Image.asset("assets/img/photo1.png"),
+                child: Image.asset("assets/img/photo1.png"),
               ),
               //SizedBox(height: 10,),
             ],
