@@ -259,7 +259,7 @@ class PageMarketController extends ControllerMVC {
         listSection.addAll(value);
       });
     });
-    showDialog(
+    await showDialog(
         context: context,
         builder: (BuildContext context) {
           return Dialog(

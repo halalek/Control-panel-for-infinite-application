@@ -1,15 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
-import 'package:splashscreen/splashscreen.dart';
-import 'dart:async';
-import 'package:carousel_slider/carousel_slider.dart';
-import 'package:http/http.dart';
-import 'package:structurepublic/src/controler/SectionController.dart';
 import 'package:structurepublic/src/controler/TestController.dart';
-import 'package:structurepublic/src/controler/user_controller.dart';
-import 'package:structurepublic/src/elements/cardSection.dart';
-import 'package:structurepublic/src/models/SectionData.dart';
+import 'package:structurepublic/src/elements/CircularLoadingWidget.dart';
 
 import 'SectionPage.dart';
 
@@ -36,282 +29,312 @@ class _TestPage extends StateMVC<TestPage> {
       body: Container(
         child: ListView(
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Container(
-                  width: MediaQuery.of(context).size.width / 2,
-                  child: Column(
-                    children: [
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Text(
-                          "الصنف الحاوي على أكبر عدد من النتجات وهو من تابع ل \t"),
-                      Text(_con.bestCategorize.marketData.nameAr +
-                          "\t:\t" +
-                          _con.bestCategorize.marketData.descriptionAr),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Container(
-                        child: Stack(
-                          children: [
-                            Container(
-                              height: 300,
-                              width: MediaQuery.of(context).size.width / 3,
-                              child: Card(
-                                semanticContainer: true,
-                                clipBehavior: Clip.antiAliasWithSaveLayer,
-                                child: GestureDetector(
-                                  child: Expanded(
-                                    child: Container(
-                                      child: Center(
-                                        child: MaterialButton(
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(80.0),
-                                          ),
-                                          padding: EdgeInsets.all(0.5),
-                                          color: Colors.black12,
-                                          child: Container(
-                                            constraints: BoxConstraints(
-                                                maxWidth: 100.0,
-                                                minHeight: 40.0,
-                                                maxHeight: 50),
-                                            alignment: Alignment.center,
-                                            child: Text(
-                                              _con.bestCategorize.categorizeData
-                                                  .nameAr,
-                                              textAlign: TextAlign.center,
-                                              style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 15),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      decoration: BoxDecoration(
-                                        image: DecorationImage(
-                                          onError: (url, error) => Image.asset(
-                                            'assets/img/loading.gif',
-                                            fit: BoxFit.cover,
-                                          ),
-                                          image: CachedNetworkImageProvider(_con
-                                              .bestCategorize
-                                              .categorizeData
-                                              .image),
-                                          fit: BoxFit.cover,
-                                          alignment: Alignment.topCenter,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20.0),
-                                ),
-                                elevation: 5,
-                                margin: EdgeInsets.all(10),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Container(
-                  width: MediaQuery.of(context).size.width / 2,
-                  child: Column(
-                    children: [
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Text("المتجر صاحب أكبر عدد من العروص"),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Container(
-                        height: 300,
-                        width: MediaQuery.of(context).size.width / 3,
-                        child: Card(
-                          semanticContainer: true,
-                          clipBehavior: Clip.antiAliasWithSaveLayer,
-                          child: GestureDetector(
-                            child: Column(
-                              children: <Widget>[
-                                new SizedBox(
-                                  height: 200,
-                                  width: MediaQuery.of(context).size.width,
-                                  child: Image(
-                                      errorBuilder: (context, url, error) =>
-                                          Image.asset(
-                                            'assets/img/loading.gif',
-                                            fit: BoxFit.cover,
-                                          ),
-                                      image:
-                                          NetworkImage(_con.bestMarket.image),
-                                      fit: BoxFit.cover),
-                                ),
-                                Expanded(
-                                  child: ListTile(
-                                    tileColor: _con.bestMarket.hide == false
-                                        ? Colors.white
-                                        : Colors.grey,
-                                    leading: CircleAvatar(
-                                      child: MaterialButton(
-                                        minWidth: 0.0,
-                                      ),
-                                      backgroundColor: Colors.black12,
-                                      backgroundImage: NetworkImage(
-                                        _con.bestMarket.imageIcon,
-                                      ),
-                                    ),
-                                    title: Text(
-                                      _con.bestMarket.nameAr,
-                                      style: TextStyle(
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    //subtitle: Text(marketController.locationMarket.toString()),
-                                    subtitle: Text(
-                                      _con.bestMarket.descriptionAr,
-                                    ),
-                                    onTap: () {},
-                                  ),
-                                )
-                              ],
-                            ),
-                            onTap: () {},
-                          ),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                          ),
-                          elevation: 5,
-                          margin: EdgeInsets.all(10),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
+            SizedBox(
+              height: 10,
             ),
-            Row(
-              children: [
-                Container(
-                  child: Column(
-                    children: [
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Text("أكثر ثلاث نتجات طلبا من المستخدمين"),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          for (int i = 0; i < _con.listProduct.length; i++)
-                            Container(
-                              width: MediaQuery.of(context).size.width / 2,
-                              child: Stack(
-                                children: [
-                                  Row(
-                                    children: [
-                                      Expanded(
-                                        child: Container(
-                                          padding:
-                                              EdgeInsets.fromLTRB(7, 7, 7, 0),
-                                          height: 210,
-                                          width: double.maxFinite,
-                                          child: Card(
-                                            elevation: 5,
-                                            //  color: Colors.orange,
-                                            semanticContainer: true,
-                                            clipBehavior:
-                                                Clip.antiAliasWithSaveLayer,
-                                            child: Column(
-                                              children: [
-                                                new SizedBox(
-                                                  height: 130,
-                                                  width: MediaQuery.of(context)
-                                                      .size
-                                                      .width,
-                                                  // child:Image.network('https://dbq8hrmshvuto.cloudfront.net/a2d/f98c8/0803/4c93/9ebe/05596a8ed7a9/normal/516995.jpg',fit: BoxFit.cover,),
-                                                  child: Image(
-                                                    errorBuilder:
-                                                        (context, url, error) =>
-                                                            Image.asset(
-                                                      'assets/img/loading.gif',
-                                                      fit: BoxFit.cover,
-                                                    ),
-                                                    image:
-                                                        CachedNetworkImageProvider(
-                                                      _con.listProduct[i]
-                                                          .image,
-                                                    ),
-                                                    fit: BoxFit.cover,
-                                                  ),
-                                                ),
-                                                Expanded(
-                                                  child: ListTile(
-                                                    tileColor:
-                                                    _con.listProduct[i].hide ==
-                                                                false
-                                                            ? Colors.white
-                                                            : Colors.grey,
-                                                    //   leading: CircleAvatar(backgroundColor: Colors.black12,backgroundImage:NetworkImage('https://arab-rate.com/media/reviews/photos/original/cd/77/3e/309-309-79-1578342205.jpg',),),
-                                                    title: Text(
-                                                      _con.listProduct[i].nameAr,
-                                                      style: TextStyle(
-                                                          fontSize: 20,
-                                                          fontWeight:
-                                                              FontWeight.bold),
-                                                    ),
-                                                    subtitle: Text(
-                                                      _con.listProduct[i]
-                                                              .description_ar ??
-                                                          " ",
-                                                    ),
-
-                                                    trailing: Container(
-                                                      child: Text(
-                                                        _con.listProduct[i].price
-                                                            .toString(),
-                                                        style: TextStyle(
-                                                            color: Colors.green,
-                                                            fontSize: 15,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .w400),
-                                                      ),
-                                                    ),
-                                                    shape:
-                                                        RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10.0),
-                                                    ),
-                                                  ),
-                                                )
-                                              ],
+            if (!_con.done)
+              CircularLoadingWidget(
+                height: 10,
+              ),
+            if (_con.done)
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Container(
+                    width: MediaQuery.of(context).size.width / 2,
+                    child: Column(
+                      children: [
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Text(
+                          "الصنف الحاوي على أكبر عدد من النتجات وهو تابع ل \t",
+                          style: TextStyle(fontSize: 20),
+                        ),
+                        Text(
+                          _con.bestCategorize.marketData.nameAr +
+                              "\t:\t" +
+                              _con.bestCategorize.marketData.descriptionAr,
+                          style: TextStyle(fontSize: 20),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Container(
+                          child: Stack(
+                            children: [
+                              Container(
+                                height: 300,
+                                width: MediaQuery.of(context).size.width / 3,
+                                child: Card(
+                                  semanticContainer: true,
+                                  clipBehavior: Clip.antiAliasWithSaveLayer,
+                                  child: GestureDetector(
+                                    child: Expanded(
+                                      child: Container(
+                                        child: Center(
+                                          child: MaterialButton(
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(80.0),
+                                            ),
+                                            padding: EdgeInsets.all(0.5),
+                                            color: Colors.black12,
+                                            child: Container(
+                                              color: Colors.black12,
+                                              constraints: BoxConstraints(
+                                                  maxWidth: 100.0,
+                                                  minHeight: 40.0,
+                                                  maxHeight: 50),
+                                              alignment: Alignment.center,
+                                              child: Text(
+                                                _con.bestCategorize
+                                                    .categorizeData.nameAr,
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 15),
+                                              ),
                                             ),
                                           ),
                                         ),
+                                        decoration: BoxDecoration(
+                                          image: DecorationImage(
+                                            onError: (url, error) =>
+                                                Image.asset(
+                                              'assets/img/loading.gif',
+                                              fit: BoxFit.cover,
+                                            ),
+                                            image: CachedNetworkImageProvider(
+                                                _con.bestCategorize
+                                                    .categorizeData.image),
+                                            fit: BoxFit.cover,
+                                            alignment: Alignment.topCenter,
+                                          ),
+                                        ),
                                       ),
-                                    ],
+                                    ),
                                   ),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20.0),
+                                  ),
+                                  elevation: 5,
+                                  margin: EdgeInsets.all(10),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    width: MediaQuery.of(context).size.width / 2,
+                    child: Column(
+                      children: [
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Text(
+                          "المتجر صاحب أكبر عدد من العروض",
+                          style: TextStyle(fontSize: 20),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Container(
+                          height: 300,
+                          width: MediaQuery.of(context).size.width / 3,
+                          child: Card(
+                            semanticContainer: true,
+                            clipBehavior: Clip.antiAliasWithSaveLayer,
+                            child: GestureDetector(
+                              child: Column(
+                                children: <Widget>[
+                                  new SizedBox(
+                                    height: 200,
+                                    width: MediaQuery.of(context).size.width,
+                                    child: Image(
+                                        errorBuilder: (context, url, error) =>
+                                            Image.asset(
+                                              'assets/img/loading.gif',
+                                              fit: BoxFit.cover,
+                                            ),
+                                        image:
+                                            NetworkImage(_con.bestMarket.image),
+                                        fit: BoxFit.cover),
+                                  ),
+                                  Expanded(
+                                    child: ListTile(
+                                      tileColor: _con.bestMarket.hide == false
+                                          ? Colors.white
+                                          : Colors.grey,
+                                      leading: CircleAvatar(
+                                        child: MaterialButton(
+                                          minWidth: 0.0,
+                                        ),
+                                        backgroundColor: Colors.black12,
+                                        backgroundImage: NetworkImage(
+                                          _con.bestMarket.imageIcon,
+                                        ),
+                                      ),
+                                      title: Text(
+                                        _con.bestMarket.nameAr,
+                                        style: TextStyle(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      //subtitle: Text(marketController.locationMarket.toString()),
+                                      subtitle: Text(
+                                        _con.bestMarket.descriptionAr,
+                                      ),
+                                      onTap: () {},
+                                    ),
+                                  )
                                 ],
                               ),
+                              onTap: () {},
                             ),
-                        ],
-                      ),
-                    ],
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10.0),
+                            ),
+                            elevation: 5,
+                            margin: EdgeInsets.all(10),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
+            SizedBox(
+              height: 70,
             ),
+            if (_con.done)
+              Row(
+                children: [
+                  Container(
+                    child: Column(
+                      children: [
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Text(
+                          "أكثر ثلاث منتجات طلباً من المستخدمين",
+                          style: TextStyle(fontSize: 18),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            for (int i = 0; i < _con.listProduct.length; i++)
+                              Container(
+                                width: MediaQuery.of(context).size.width / 3,
+                                child: Stack(
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                          child: Container(
+                                            padding:
+                                                EdgeInsets.fromLTRB(7, 7, 7, 0),
+                                            height: 210,
+                                            width: double.maxFinite,
+                                            child: Card(
+                                              elevation: 5,
+                                              //  color: Colors.orange,
+                                              semanticContainer: true,
+                                              clipBehavior:
+                                                  Clip.antiAliasWithSaveLayer,
+                                              child: Column(
+                                                children: [
+                                                  new SizedBox(
+                                                    height: 130,
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                            .size
+                                                            .width,
+                                                    // child:Image.network('https://dbq8hrmshvuto.cloudfront.net/a2d/f98c8/0803/4c93/9ebe/05596a8ed7a9/normal/516995.jpg',fit: BoxFit.cover,),
+                                                    child: Image(
+                                                      errorBuilder: (context,
+                                                              url, error) =>
+                                                          Image.asset(
+                                                        'assets/img/loading.gif',
+                                                        fit: BoxFit.cover,
+                                                      ),
+                                                      image:
+                                                          CachedNetworkImageProvider(
+                                                        _con.listProduct[i]
+                                                            .image,
+                                                      ),
+                                                      fit: BoxFit.cover,
+                                                    ),
+                                                  ),
+                                                  Expanded(
+                                                    child: ListTile(
+                                                      tileColor:
+                                                          _con.listProduct[i]
+                                                                      .hide ==
+                                                                  false
+                                                              ? Colors.white
+                                                              : Colors.grey,
+                                                      //   leading: CircleAvatar(backgroundColor: Colors.black12,backgroundImage:NetworkImage('https://arab-rate.com/media/reviews/photos/original/cd/77/3e/309-309-79-1578342205.jpg',),),
+                                                      title: Text(
+                                                        _con.listProduct[i]
+                                                            .nameAr,
+                                                        style: TextStyle(
+                                                            fontSize: 20,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold),
+                                                      ),
+                                                      subtitle: Text(
+                                                        _con.listProduct[i]
+                                                                .description_ar ??
+                                                            " ",
+                                                      ),
+
+                                                      trailing: Container(
+                                                        child: Text(
+                                                          _con.listProduct[i]
+                                                              .price
+                                                              .toString(),
+                                                          style: TextStyle(
+                                                              color:
+                                                                  Colors.green,
+                                                              fontSize: 15,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w400),
+                                                        ),
+                                                      ),
+                                                      shape:
+                                                          RoundedRectangleBorder(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(10.0),
+                                                      ),
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
           ],
         ),
       ),

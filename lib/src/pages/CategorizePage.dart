@@ -161,7 +161,7 @@ class _Categorize extends StateMVC<Categorize> {
               ),
               Container(
                 padding: EdgeInsets.only(top: 5, bottom: 5),
-                color: Colors.black38,
+                color: Colors.black12,
                 child: MaterialButton(
                   minWidth: MediaQuery
                       .of(context)
@@ -275,7 +275,7 @@ class _Categorize extends StateMVC<Categorize> {
         children: [
           SizedBox(height: 10,),
           FloatingActionButton(
-            backgroundColor: Colors.blue[200],
+            backgroundColor: Colors.blue[900],
             foregroundColor: Colors.white,
             child: Icon(Icons.shopping_cart),
             onPressed: () {
@@ -289,7 +289,7 @@ class _Categorize extends StateMVC<Categorize> {
           ),
           SizedBox(height: 10,),
           FloatingActionButton(
-            backgroundColor: Colors.blue[200],
+            backgroundColor: Colors.blue[900],
             foregroundColor: Colors.white,
             child: Icon(Icons.style),
             onPressed: () {
@@ -303,7 +303,7 @@ class _Categorize extends StateMVC<Categorize> {
           ),
           SizedBox(height: 10,),
           FloatingActionButton(
-            backgroundColor: Colors.blue[200],
+            backgroundColor: Colors.blue[900],
             foregroundColor: Colors.white,
             child: Icon(Icons.add),
             onPressed: () {

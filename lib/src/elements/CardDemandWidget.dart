@@ -104,10 +104,14 @@ class _CardDemanWidgetState extends State<CardDemandWidget> {
             ],
           ),
           onDoubleTap: () {
+            setState(() {
               demandController.editController(demandData, user, demandController);
+            });
           },
           onTap: () {
+            setState(() {
               demandController.editController(demandData, user, demandController);
+            });
           },
         ),
         shape: RoundedRectangleBorder(

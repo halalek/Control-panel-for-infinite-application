@@ -8,6 +8,9 @@ import 'package:structurepublic/src/controler/SectionController.dart';
 import 'package:structurepublic/src/controler/user_controller.dart';
 import 'package:structurepublic/src/elements/cardSection.dart';
 import 'package:structurepublic/src/models/SectionData.dart';
+import 'package:structurepublic/src/pages/TestPage.dart';
+
+import 'Pagemain.dart';
 
 class PageMain extends StatefulWidget {
   @override
@@ -49,7 +52,7 @@ class _PageMain extends StateMVC<PageMain> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.blue[200],
+        backgroundColor: Colors.blue[900],
         foregroundColor: Colors.white,
         child: Icon(Icons.add),
         onPressed: () {
@@ -115,7 +118,7 @@ class _PageMain extends StateMVC<PageMain> {
               ),
               Container(
                 padding: EdgeInsets.only(top: 5, bottom: 5),
-                color: Colors.black38,
+                color: Colors.black12,
                 child: MaterialButton(
                   minWidth: MediaQuery.of(context).size.width / 4.5,
                   //color: Colors.black12,
@@ -163,7 +166,14 @@ class _PageMain extends StateMVC<PageMain> {
                 color: Colors.black12,
                 child: MaterialButton(
                   minWidth: MediaQuery.of(context).size.width / 4.5,
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => pagemain(),
+                      ),
+                    );
+                  },
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -200,7 +210,14 @@ class _PageMain extends StateMVC<PageMain> {
                 color: Colors.black12,
                 child: MaterialButton(
                   minWidth: MediaQuery.of(context).size.width / 4.5,
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => TestPage(),
+                      ),
+                    );
+                  },
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [

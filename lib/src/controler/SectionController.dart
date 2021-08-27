@@ -30,10 +30,58 @@ class PageMainController extends ControllerMVC {
 
   String imageUrl;
 
+  List<SectionData> list1 = [];
+  List<int> list2 = [];
+  List map=[];
+
   PageMainController() {
     loader = Helper.overlayLoader(context);
     this.scaffoldKey = new GlobalKey<ScaffoldState>();
   }
+
+
+
+  getSections1() async {
+    setState((){
+      list1.clear();
+    });
+    await repo.getSections1().then((value) {
+      setState((){
+        list1.addAll(value);
+      });
+    });
+    setState((){
+      list2.clear();
+    });
+    // await getSections1();
+    for(int i = 0; i < list1.length; i++){
+
+      await repo.getSections2(list1[i]).then((value) {
+        setState((){
+          list2.add(value);
+        });
+      });
+
+    }
+    print("nnnnnnnnnnnn");
+    print(list1.length);
+    for(int i = 0; i < list1.length; i++){
+
+      map.add({"name section":list1[i].nameAr,"number market":list2[i]});
+    }
+  }
+/* getSections3() async {
+
+    setState((){
+      map.clear();
+    });
+
+    await repo.getSections4(list1,list2).then((value) {
+
+      setState((){
+        map.addAll(value);
+      });
+  });}*/
 
 
   @override

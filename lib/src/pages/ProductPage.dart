@@ -48,10 +48,6 @@ class _Products extends StateMVC<Products> {
   Widget build(BuildContext context) {
     // TODO: implement build
     return Scaffold(
-      appBar: AppBar(
-        title: Text(categorizeData.nameAr),
-        backgroundColor: Theme.of(context).primaryColor,
-      ),
       body: Center(
         child: Container(
           color: Colors.grey[100],
@@ -119,7 +115,7 @@ class _Products extends StateMVC<Products> {
               ),
               Container(
                 padding: EdgeInsets.only(top: 5, bottom: 5),
-                color: Colors.black38,
+                color: Colors.black12,
                 child: MaterialButton(
                   minWidth: MediaQuery
                       .of(context)

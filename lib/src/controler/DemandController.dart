@@ -8,6 +8,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
 import 'package:structurepublic/src/elements/DialogShowWorkerWidget.dart';
@@ -30,19 +31,13 @@ class DemandController extends ControllerMVC {
   List<DemandData> listByAdmin = [];
   List<Userss> selectUser = [];
   List<WorkerData> workerList = [];
+  int startTime = DateTime.now().microsecondsSinceEpoch;
+  int endTime = DateTime.now().microsecondsSinceEpoch;
   OverlayEntry loader;
-  final String idMarket;
-  Container localContainer=new Container(
-    decoration: BoxDecoration(
-      borderRadius: BorderRadius.all(Radius.circular(30)),
-      color: Colors.grey[100],
-    ),
-    child:Center(
-      child: Text(" "),
-    ),
-  );
+  final MarketData marketData;
+  Container localContainer ;
 
-  DemandController(this.idMarket) {
+  DemandController(this.marketData) {
     loader = Helper.overlayLoader(context);
     this.scaffoldKey = new GlobalKey<ScaffoldState>();
   }
@@ -58,24 +53,51 @@ class DemandController extends ControllerMVC {
       listByAdmin.clear();
       selectUser.clear();
     });
-      await repo.getDemandNode(this.idMarket).then((value) {
-        value.forEach((element) async {
-          await repo.getUserDemand(element).then((elementUser) {
-            print("999999999999999999" + elementUser.name);
-            setState(() {
-              selectUser.add(elementUser);
-              listByAdmin.add(element);
-            });
+    await repo.getDemandNode(this.marketData.id).then((value) {
+      value.forEach((element) async {
+        await repo.getUserDemand(element).then((elementUser) {
+          print("999999999999999999" + elementUser.name);
+          setState(() {
+            selectUser.add(elementUser);
+            listByAdmin.add(element);
           });
         });
-      }).catchError((e)=>{print("demand"+e)});
+      });
+    }).catchError((e) => {print("demand" + e)});
   }
 
-  void editController(DemandData demandData,Userss user,DemandController demandController){
-    setState((){
-        demandController.localContainer=Container(
-          child: InfoDemand(demandData, user, demandController),
-        );
+  void getDemandsByTime(int start, int end) async {
+    setState(() {
+      listByAdmin.clear();
+      selectUser.clear();
+      localContainer=new Container();
+    });
+    await repo
+        .getFilterDemand(this.marketData, start, end)
+        .then((value) {
+      value.forEach((element) async {
+        await repo.getUserDemand(element).then((elementUser) {
+          print("999999999999999999" + elementUser.name);
+          setState(() {
+            selectUser.add(elementUser);
+            listByAdmin.add(element);
+          });
+        });
+      });
+    }).catchError((e) => {print("demand" + e)});
+  }
+
+  void editController(
+      DemandData demandData, Userss user, DemandController demandController) {
+    setState(() {
+      localContainer = new Container();
+    });
+    setState(() {
+      localContainer = new Container(
+        child: InfoDemand(demandData, user, demandController),
+      );
+      localContainer;
+      demandController;
     });
   }
 
@@ -112,7 +134,7 @@ class DemandController extends ControllerMVC {
     demandData.stateEn = "unaccepted ...";
     demandData.remove = true;
     demandData.done = true;
-    await repo.postDamandNode(demandData,false);
+    await repo.postDamandNode(demandData, false);
     setState(() {
       demandData;
       listByAdmin;
@@ -123,11 +145,111 @@ class DemandController extends ControllerMVC {
     demandData.stateAr = "مقبول ...";
     demandData.stateEn = "accepted ...";
     demandData.done = true;
-    await repo.postDamandNode(demandData,true);
+    await repo.postDamandNode(demandData, true);
     setState(() {
       demandData;
       listByAdmin;
     });
+  }
+
+  showFilterDialog(DemandController demandController) async {
+    setState(() {
+      listByAdmin.clear();
+      selectUser.clear();
+      localContainer=new Container();
+    });
+    await showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return Dialog(
+            backgroundColor: Colors.white70,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Container(
+                height: 300,
+                width: MediaQuery.of(context).size.width / 4,
+                child: Center(
+                    child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        MaterialButton(
+                          onPressed: () {
+                            DatePicker.showDatePicker(context,
+                                showTitleActions: true,
+                                minTime: DateTime(2000, 1, 1),
+                                maxTime: DateTime(2100, 1, 1),
+                                onChanged: (date) {
+                              startTime = date.microsecondsSinceEpoch;
+                            }, onConfirm: (date) {
+                              startTime = date.microsecondsSinceEpoch;
+                            },
+                                currentTime: DateTime.now(),
+                                locale: LocaleType.ar);
+                          },
+                          child: Icon(
+                            Icons.more_time,
+                            color: Colors.green,
+                            size: 30,
+                          ),
+                        ),
+                        SizedBox(
+                          width: 3,
+                        ),
+                        Icon(Icons.west),
+                        SizedBox(
+                          width: 3,
+                        ),
+                        MaterialButton(
+                          onPressed: () {
+                            DatePicker.showDatePicker(context,
+                                showTitleActions: true,
+                                minTime: DateTime(2000, 1, 1),
+                                maxTime: DateTime(2100, 1, 1),
+                                onChanged: (date) {
+                              endTime = date.microsecondsSinceEpoch;
+                            }, onConfirm: (date) {
+                              endTime = date.microsecondsSinceEpoch;
+                            },
+                                currentTime: DateTime.now(),
+                                locale: LocaleType.ar);
+                          },
+                          child: Icon(
+                            Icons.more_time,
+                            color: Colors.red,
+                            size: 30,
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 100,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+
+                        MaterialButton(
+                          onPressed: () {
+                            setState(() {
+                              getDemandsByTime(startTime, endTime);
+                            });
+                          },
+                          child: Icon(
+                            Icons.done_all,
+                            size: 30,
+                          ),
+                        ),
+                        SizedBox(width: 15,),
+                      ],
+                    )
+                  ],
+                ))),
+          );
+        });
   }
 
   showWorkerDialog(
@@ -162,5 +284,4 @@ class DemandController extends ControllerMVC {
         "${dateTime.year.toString()}/${dateTime.month.toString()}/${dateTime.day.toString()}\t\t\t${dateTime.hour.toString()}:${dateTime.minute.toString()}:${dateTime.second.toString()}\t\t$stateDate                                                                                         ";
     return ourDate;
   }
-
 }

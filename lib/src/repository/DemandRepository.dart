@@ -104,6 +104,25 @@ Future<List<DemandData>> getDemandNodeByTime(String id_market,int start,int end)
 }
 
 
+
+Future<List<DemandData>> getFilterDemand(MarketData marketData,int start,int end)async{
+  List<DemandData> listDemand=[];
+  DateTime startTime=DateTime.fromMicrosecondsSinceEpoch(start);
+  DateTime endTime=DateTime.fromMicrosecondsSinceEpoch(end);
+  await FirebaseFirestore.instance.collection('myDemand').where("id_market",isEqualTo: marketData.id).get().then((valueDemand) async {
+    for(int i=0;i<valueDemand.docs.length;i++){
+      DemandData localDemand=DemandData.fromJson(valueDemand.docs[i].data());
+      DateTime localTime=DateTime.fromMicrosecondsSinceEpoch(localDemand.timesTampCreat);
+      if((localTime.isAfter(startTime))&&(localTime.isBefore(endTime))){
+        listDemand.add(localDemand);
+      }
+    }
+  }).catchError((e) {
+    print(e);
+  });
+  return listDemand;
+}
+
 void postDamandNode(DemandData demandData,bool notification)async{
   var url = Uri.parse('https://infinityserver2020.herokuapp.com/demand/admin/post/');
   var response = await http.post(

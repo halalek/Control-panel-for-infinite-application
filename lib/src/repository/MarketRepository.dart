@@ -43,6 +43,40 @@ Future<List<MarketData>> getMarketNode(SectionData sectionData) async {
   }
 }
 
+Future<MarketData> getmarketbyworker(String user)async{
+  MarketData marketdata = new MarketData() ;
+
+  await FirebaseFirestore.instance
+      .collection("market").doc(user)//.where("id",isEqualTo:userss.id.toString()).where("role",isEqualTo:"admin")
+      .get()
+      .then((value) {
+    marketdata=MarketData.fromJson(value.data()) ;
+  }) .catchError((e){
+    print(e) ;
+  }) ;
+  return marketdata ;
+}
+
+
+Future<List<MarketData>> getallmarket() async {
+  //wait addtokenuser();
+  List<MarketData> Worker=[];
+  print("mnnnnnnnnn") ;
+  await FirebaseFirestore.instance
+      .collection("market").get().then((value) {
+    print(value.docs.length);
+    for (int i = 0; i < value.docs.length; i++) {
+      Worker.add(MarketData.fromJson(value.docs[i].data()));
+      print("male1111");
+    }
+  }
+  ).catchError((e){}) ;
+  print("male") ;
+  print(Worker.length) ;
+  print("male") ;
+  return Worker  ;
+}
+
 Future<List<MarketData>> getMarketAdminNode(Userss myAdmin) async {
   var url = Uri.parse('https://infinityserver2020.herokuapp.com/market/admin/get/');
   http.Response res = await http.post(

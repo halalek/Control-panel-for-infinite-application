@@ -1,3 +1,4 @@
+
 class WorkerData {
   String email;
   String id;
@@ -23,6 +24,20 @@ class WorkerData {
         this.timesTamp,
         this.token,
         this.visible});
+
+
+
+
+  // ignore: non_constant_identifier_names
+
+
+  void WorkerSign(String id, String name, String email,String token,List<String> market)
+  {
+
+    print("model"+id.toString()) ;
+    this.id=id; this.name=name; this.email=email;this.token=token ;this.idMarket=market;this.image="https://www.pngkey.com/png/full/284-2844044_fashion-toys-electrical-items-and-more-girl-with.png";}
+
+
 
   WorkerData.fromJson(Map<String, dynamic> json) {
     email = json['email'];
@@ -53,4 +68,7 @@ class WorkerData {
     data['visible'] = this.visible;
     return data;
   }
+
+
+
 }

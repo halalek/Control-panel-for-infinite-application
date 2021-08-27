@@ -43,13 +43,14 @@ class _CardWidgetState extends State<CardWidget> {
                     onChanged: (value) {
                       _con.hideSection(sectionData);
                     },
-                    activeColor: Colors.blue[200],
+                    activeColor: Colors.blue[900],
                     activeTrackColor: Colors.white70,
                   ),
                 ],
               ),
             ),
             Container(
+              height: 280,
               child: Center(
                 child: MaterialButton(
                   onPressed: () {
@@ -74,6 +75,7 @@ class _CardWidgetState extends State<CardWidget> {
                       color: Colors.black12, //pink
                     ),
                     child: Container(
+                      height: 50,
                       constraints: BoxConstraints(
                           maxWidth: 100.0, minHeight: 40.0, maxHeight: 50),
                       alignment: Alignment.center,
@@ -95,18 +97,19 @@ class _CardWidgetState extends State<CardWidget> {
               ),
             ),
             Container(
+              margin: EdgeInsets.only(top: 10),
               color:
               sectionData.hide == false ? Colors.white : Colors.grey,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   MaterialButton(
                     minWidth: 10,
                     height: 10,
                     child: Icon(
                       Icons.edit_outlined,
-                      color: Colors.blue[200],
+                      color: Colors.blue[900],
                       size: 25,
                     ),
                     onPressed: () {

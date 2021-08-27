@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:ffi';
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -33,8 +32,6 @@ Future<MarketData> getBestMarket()async{
           topSold=valueSold.docs.length;
           bestMarketData=MarketData.fromJson(valueMarket.docs[i].data());
         }
-      }).catchError((e) {
-        print(e);
       });
     }
   }).catchError((e) {
@@ -65,8 +62,6 @@ Future<List<ProductData>> getThreeBestProduct()async{
             }
           }
         }
-      }).catchError((e) {
-        print(e);
       });
       list.add(localProduct);
       number.add(Temp(index: i,number: localNumber));
@@ -111,12 +106,8 @@ Future<Local> getBestCategorize()async{
               topProduct=valueProduct.docs.length;
               bestCategorize=Local(categorizeData: localCategorize,marketData: localMarket);
             }
-          }).catchError((e) {
-            print(e);
           });
         }
-      }).catchError((e) {
-        print(e);
       });
     }
   }).catchError((e) {

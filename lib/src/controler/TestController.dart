@@ -20,6 +20,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 class PageTestController extends ControllerMVC {
 
   bool loading = false;
+  bool done=false;
   GlobalKey<ScaffoldState> scaffoldKey;
   OverlayEntry loader;
   List<ProductData> listProduct = [];
@@ -33,9 +34,10 @@ class PageTestController extends ControllerMVC {
 
 
   @override
-  void initState() {
+  void initState()async{
+    await getAllTest();
     super.initState();
-    getAllTest();
+    setState((){done=true;});
   }
 
   getAllTest() async {
@@ -44,9 +46,9 @@ class PageTestController extends ControllerMVC {
       bestCategorize=new Local();
       bestMarket=new MarketData();
     });
-    await repo.getThreeBestProduct().then((value) {
+    await repo.getBestCategorize().then((value) {
       setState((){
-        listProduct.addAll(value);
+        bestCategorize=value;
       });
     });
     await repo.getBestMarket().then((value) {
@@ -54,11 +56,15 @@ class PageTestController extends ControllerMVC {
         bestMarket=value;;
       });
     });
-    await repo.getBestCategorize().then((value) {
+    print("marmar"+bestMarket.id);
+    print("catecate"+bestCategorize.categorizeData.id);
+    await repo.getThreeBestProduct().then((value) {
       setState((){
-        bestCategorize=value;
+        listProduct.addAll(value);
       });
     });
+    print("product"+listProduct.length.toString());
+
     setState((){
       listProduct;
       bestCategorize;

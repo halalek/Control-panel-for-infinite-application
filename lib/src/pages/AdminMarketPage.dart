@@ -13,20 +13,20 @@ import 'package:structurepublic/src/models/user.dart';
 
 import 'SectionPage.dart';
 
-class PageMarket extends StatefulWidget {
+class PageAdminMarket extends StatefulWidget {
   //final SectionData sectionData;
   final Userss admin;
 
-  PageMarket(this.admin);
+  PageAdminMarket(this.admin);
 
   @override
   State<StatefulWidget> createState() {
     // TODO: implement createState
-    return _PageMarket(this.admin);
+    return _PageAdminMarket(this.admin);
   }
 }
 
-class _PageMarket extends StateMVC<PageMarket> {
+class _PageAdminMarket extends StateMVC<PageAdminMarket> {
   //final SectionData sectionData;
   final Userss admin;
   PageMarketController _con2;
@@ -36,7 +36,7 @@ class _PageMarket extends StateMVC<PageMarket> {
   //   _con2 = controller;
   // }
 
-  _PageMarket(this.admin) : super(PageMarketController(SectionData(id:""))) {
+  _PageAdminMarket(this.admin) : super(PageMarketController(SectionData(id:""))) {
     // _con = controller;
     _con2 = controller;
   }
@@ -127,7 +127,7 @@ class _PageMarket extends StateMVC<PageMarket> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.blue[200],
+        backgroundColor: Colors.blue[900],
         foregroundColor: Colors.white,
         child: Icon(Icons.add),
         onPressed: () {
@@ -149,7 +149,8 @@ class _PageMarket extends StateMVC<PageMarket> {
             newMarket.timesTampClose=0;
             newMarket.timesTampOpen=0;
             newMarket.rating=0;
-            await _con2.showEditDialog(newMarket, _con2);
+            await _con2.showAddSectionDialog(newMarket, _con2);
+            //await _con2.showEditDialog(newMarket, _con2);
             //_con.listProduct.add(newProductData);
           });
         },
@@ -201,7 +202,7 @@ class _PageMarket extends StateMVC<PageMarket> {
               ),
               Container(
                 padding: EdgeInsets.only(top: 5, bottom: 5),
-                color: Colors.black38,
+                color: Colors.black12,
                 child: MaterialButton(
                   minWidth: MediaQuery
                       .of(context)

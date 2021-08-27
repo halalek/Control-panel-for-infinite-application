@@ -123,7 +123,7 @@ class _PageMarket extends StateMVC<PageMarket> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.blue[200],
+        backgroundColor: Colors.blue[900],
         foregroundColor: Colors.white,
         child: Icon(Icons.add),
         onPressed: () {
@@ -197,7 +197,7 @@ class _PageMarket extends StateMVC<PageMarket> {
               ),
               Container(
                 padding: EdgeInsets.only(top: 5, bottom: 5),
-                color: Colors.black38,
+                color: Colors.black12,
                 child: MaterialButton(
                   minWidth: MediaQuery
                       .of(context)

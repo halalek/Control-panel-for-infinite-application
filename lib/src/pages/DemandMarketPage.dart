@@ -34,7 +34,7 @@ class _MarketDemand extends StateMVC<MarketDemand> {
   DemandController _con;
   final MarketData marketData;
 
-  _MarketDemand(this.marketData) : super(DemandController(marketData.id)) {
+  _MarketDemand(this.marketData) : super(DemandController(marketData)) {
     _con = controller;
   }
 
@@ -75,6 +75,14 @@ class _MarketDemand extends StateMVC<MarketDemand> {
               ),
             ],
           ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.blue[900],
+        foregroundColor: Colors.white,
+        child: Icon(Icons.access_time),
+        onPressed: () {
+          _con.showFilterDialog(_con);
+        },
+      ),
       drawer: Drawer(
         child: Container(
           padding: EdgeInsets.all(10),
@@ -122,7 +130,7 @@ class _MarketDemand extends StateMVC<MarketDemand> {
               ),
               Container(
                 padding: EdgeInsets.only(top: 5, bottom: 5),
-                color: Colors.black38,
+                color: Colors.black12,
                 child: MaterialButton(
                   minWidth: MediaQuery
                       .of(context)

@@ -20,6 +20,40 @@ final navigatorKey = GlobalKey<NavigatorState>();
 
 //LocationData locationData;
 
+
+
+Future<List<SectionData>> getSections1() async {
+  List<SectionData> list = [];
+
+  await FirebaseFirestore.instance.collection('section').get().then((value) {
+    for (int i = 0; i < value.docs.length; i++) {
+      print( value.docs.length.toString());
+      list.add(SectionData.fromJson(value.docs[i].data()));
+    }
+  }).catchError((e) {
+    print(e);
+  });
+  print("sec");
+  print( list[1].nameAr);
+  return list;
+}
+
+Future<int> getSections2(SectionData s) async {
+
+  int u=0;
+
+  await FirebaseFirestore.instance.collection("market").where("id_section",isEqualTo:s.id.toString() ).get().then((value){
+
+    u= value.docs.length;
+  }).catchError((e) {
+    print(e);
+  });
+
+  return u;
+
+
+}
+
 Future<List<SectionData>> getSections() async {
   List<SectionData> list = [];
 
