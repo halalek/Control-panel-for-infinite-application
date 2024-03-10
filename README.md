@@ -37,7 +37,3 @@ Communicating with application administrators regarding problems they face in or
 
 
 
-
-![photo_٢٠٢١-٠٨-٢٧_١٧-١٦-٣٨](https://github.com/halalek/controlboard/assets/112726630/bc148e97-4817-4fef-843c-b4dd86dd5ff6)
-
-
