@@ -27,13 +27,12 @@ Communicating with application administrators regarding problems they face in or
 
 
 
-![photo_2021-08-27_18-42-29](https://github.com/halalek/controlboard/assets/112726630/0120991f-8061-4d7e-96ee-0d2e642ecd89)
+![image](https://github.com/halalek/Control-panel-for-infinite-application/assets/112726630/673c1171-d727-43ae-bf52-a03a4fe6c026)
 
 
-![photo_2021-08-27_21-35-55](https://github.com/halalek/controlboard/assets/112726630/23772bd4-2dfe-4ecd-9b2d-5e97b5bb2db8)
+![image](https://github.com/halalek/Control-panel-for-infinite-application/assets/112726630/318735c1-44be-4516-a948-153f957848c4)
 
 
-![photo_٢٠٢١-٠٨-٢٧_١٧-١٦-٣٨](https://github.com/halalek/controlboard/assets/112726630/0c281645-999d-4184-bead-8b3653eec364)
 
 
 
