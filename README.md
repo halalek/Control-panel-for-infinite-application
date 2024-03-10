@@ -1,16 +1,43 @@
-# structurepublic
+# Control panel for infinite application : 
 
-A new Flutter application.
+![0](https://github.com/halalek/controlboard/assets/112726630/b879dc71-ee61-452f-b095-6ce7ca9a194a)
 
-## Getting Started
+"Infinity" is an e-commerce system that brings together stores that provide product delivery services,
+    Displaying the services provided by each store, and the ability to show stores that provide service 24 hours a day.
 
-This project is a starting point for a Flutter application.
+The system contains various stores such as: clothing, restaurants, supermarkets, and flowers. The system meets the user's needs in all their forms, as it is endless shopping for the user.
 
-A few resources to get you started if this is your first Flutter project:
+The system consists of an application for the user, the store owner, and the delivery representative, in addition to the control panel (web).
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+## Services provided by the control panel :
+## 1-Managing application users:
+Carrying out all management processes for the individuals who use the application
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## 2-Managing user permissions: 
+Selecting the user to whom you want to grant or modify permission
+
+## 3-Store management:
+by adding and modifying items and products
+
+## 4-Presence of reports:
+The presence of useful reports for the system administrator (store profits - stores with the most offers - orders that occurred during a certain period)
+
+## 5-Technical support and maintenance: 
+Communicating with application administrators regarding problems they face in order to carry out modifications, maintenance, and additions
+
+
+
+![photo_2021-08-27_18-42-29](https://github.com/halalek/controlboard/assets/112726630/0120991f-8061-4d7e-96ee-0d2e642ecd89)
+
+
+![photo_2021-08-27_21-35-55](https://github.com/halalek/controlboard/assets/112726630/23772bd4-2dfe-4ecd-9b2d-5e97b5bb2db8)
+
+
+![photo_٢٠٢١-٠٨-٢٧_١٧-١٦-٣٨](https://github.com/halalek/controlboard/assets/112726630/0c281645-999d-4184-bead-8b3653eec364)
+
+
+
+
+![photo_٢٠٢١-٠٨-٢٧_١٧-١٦-٣٨](https://github.com/halalek/controlboard/assets/112726630/bc148e97-4817-4fef-843c-b4dd86dd5ff6)
+
+
